@@ -25,6 +25,7 @@ class Factory
      */
     public static function make($name, array $config)
     {
+        $name = ucfirst($name);
         $application = "\\unionpay\\{$name}\\Application";
 
         return new $application($config);
