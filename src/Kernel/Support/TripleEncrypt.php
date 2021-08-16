@@ -65,7 +65,7 @@ class TripleEncrypt
         $encrypted = base64_decode($encrypted);
         $td = @mcrypt_module_open(MCRYPT_3DES, '', MCRYPT_MODE_ECB, '');
         @mcrypt_generic_init($td, $key, $iv);
-        $decrypted = mdecrypt_generic($td, $encrypted);
+        $decrypted = @mdecrypt_generic($td, $encrypted);
         @mcrypt_generic_deinit($td);
         @mcrypt_module_close($td);
         return self::stripPKSC5Padding($decrypted);

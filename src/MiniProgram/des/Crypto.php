@@ -52,7 +52,7 @@ class Crypto
      */
     public function decrypt($data)
     {
-        return TripleEncrypt::encrypt3DES($data, $this->config['symmetricKey']);
+        return TripleEncrypt::decrypt3DES($data, $this->config['symmetricKey']);
     }
 
     /**
@@ -64,6 +64,6 @@ class Crypto
      */
     public function encrypt($data)
     {
-        return TripleEncrypt::decrypt3DES($data, $this->config['symmetricKey']);
+        return TripleEncrypt::encrypt3DES($data, $this->config['symmetricKey']);
     }
 }
