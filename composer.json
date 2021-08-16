@@ -21,7 +21,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "unionpay\\": "src/unionpay"
+            "unionpay\\": "src"
         }
     }
 }
