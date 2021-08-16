@@ -7,7 +7,6 @@
 
 namespace unionpay\MiniProgram\access;
 
-use HttpException;
 use unionpay\Kernel\Contracts\FrontTokenInterface;
 use unionpay\Kernel\Events\FrontTokenRefreshed;
 use unionpay\Kernel\ServiceContainer;
@@ -38,11 +37,6 @@ class FrontToken implements FrontTokenInterface
      * @var string
      */
     protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/frontToken";
-
-    /**
-     * @var string
-     */
-    protected $queryName;
 
     /**
      * @var array
@@ -83,11 +77,10 @@ class FrontToken implements FrontTokenInterface
     /**
      * @param false $refresh
      * @return array|mixed
-     * @throws HttpException
+     * @author cfn <cfn@leapy.cn>
+     * @date 2021/8/16 19:19
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\Cache\InvalidArgumentException
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 11:34
      */
     public function getToken($refresh = false)
     {
@@ -110,10 +103,9 @@ class FrontToken implements FrontTokenInterface
     }
 
     /**
-     * @return array|mixed|\unionpay\Kernel\Contracts\FrontTokenInterface
+     * @return array|mixed|\unionpay\Kernel\Contracts\AccessTokenInterface
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 11:36
-     * @throws HttpException
+     * @date 2021/8/16 19:19
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\Cache\InvalidArgumentException
      */
@@ -126,7 +118,7 @@ class FrontToken implements FrontTokenInterface
      * @param string $token
      * @param int $lifetime
      * @return $this
-     * @throws \Exception
+     * @throws \Exception|\Psr\Cache\InvalidArgumentException
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 10:35
      */
@@ -152,9 +144,9 @@ class FrontToken implements FrontTokenInterface
     /**
      * @param array $credentials
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException|HttpException
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 10:06
+     * @date 2021/8/16 19:19
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function requestToken(array $credentials)
     {
@@ -162,7 +154,7 @@ class FrontToken implements FrontTokenInterface
         $result = json_decode($response->getBody()->getContents(), true);
 
         if (empty($result) || !isset($result['resp']) || $result['resp'] != "00" || !isset($result['params'])) {
-            throw new HttpException('Request front_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response, $result);
+            throw new \Exception('Request front_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response, $result);
         }
 
         return $result['params'];
@@ -182,22 +174,9 @@ class FrontToken implements FrontTokenInterface
     }
 
     /**
-     * @return array
+     * @return string
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 11:31
-     * @throws HttpException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Psr\Cache\InvalidArgumentException
-     */
-    protected function getQuery()
-    {
-        return [$this->queryName ?: $this->tokenKey => $this->getToken()[$this->tokenKey]];
-    }
-
-    /**
-     * @return mixed
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 11:21
+     * @date 2021/8/16 19:21
      * @throws \Exception
      */
     public function getEndpoint()

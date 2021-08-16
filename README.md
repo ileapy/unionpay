@@ -5,7 +5,8 @@
 ## Requirement
 
 1. PHP >= 5.6
-2. **[Composer](https://getcomposer.org/)**
+2. mcrypt扩展
+3. **[Composer](https://getcomposer.org/)**
 
 ## Installation
 

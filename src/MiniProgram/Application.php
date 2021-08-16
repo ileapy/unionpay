@@ -15,6 +15,8 @@ use unionpay\Kernel\ServiceContainer;
  * @property \unionpay\MiniProgram\access\AccessToken            $access_token
  * @property \unionpay\MiniProgram\access\BackendToken           $backend_token
  * @property \unionpay\MiniProgram\access\FrontToken             $front_token
+ * @property \unionpay\MiniProgram\user\Mobile                   $mobile
+ * @property \unionpay\MiniProgram\des\Crypto                    $crypto
  *
  * @package uniopay\MiniProgram
  */
@@ -25,6 +27,8 @@ class Application extends ServiceContainer
      */
     protected $providers = [
         access\ServiceProvider::class,
+        user\ServiceProvider::class,
+        des\ServiceProvider::class
     ];
 
     /**

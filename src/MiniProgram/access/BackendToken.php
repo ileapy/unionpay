@@ -7,8 +7,6 @@
 
 namespace unionpay\MiniProgram\access;
 
-use HttpException;
-use Psr\Http\Message\RequestInterface;
 use Psr\Log\InvalidArgumentException;
 use unionpay\Kernel\Contracts\BackendTokenInterface;
 use unionpay\Kernel\Events\BackendTokenRefreshed;
@@ -36,11 +34,6 @@ class BackendToken implements BackendTokenInterface
      * @var string
      */
     protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/backendToken";
-
-    /**
-     * @var string
-     */
-    protected $queryName;
 
     /**
      * @var array
@@ -77,8 +70,7 @@ class BackendToken implements BackendTokenInterface
      * @param false $refresh
      * @return array|mixed
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 10:55
-     * @throws HttpException
+     * @date 2021/8/16 19:20
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\Cache\InvalidArgumentException
      */
@@ -107,7 +99,7 @@ class BackendToken implements BackendTokenInterface
      * @param string $token
      * @param int $lifetime
      * @return $this
-     * @throws \Exception
+     * @throws \Exception|\Psr\Cache\InvalidArgumentException
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 10:35
      */
@@ -133,9 +125,9 @@ class BackendToken implements BackendTokenInterface
     /**
      * @param array $credentials
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException|HttpException
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 10:06
+     * @date 2021/8/16 19:20
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function requestToken(array $credentials)
     {
@@ -143,7 +135,7 @@ class BackendToken implements BackendTokenInterface
         $result = json_decode($response->getBody()->getContents(), true);
 
         if (empty($result) || !isset($result['resp']) || $result['resp'] != "00" || !isset($result['params'])) {
-            throw new HttpException('Request backend_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response, $result);
+            throw new \Exception('Request backend_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
         }
 
         return $result['params'];
@@ -152,8 +144,7 @@ class BackendToken implements BackendTokenInterface
     /**
      * @return array|mixed|\unionpay\Kernel\Contracts\AccessTokenInterface
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 11:13
-     * @throws HttpException
+     * @date 2021/8/16 19:20
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\Cache\InvalidArgumentException
      */
@@ -173,17 +164,6 @@ class BackendToken implements BackendTokenInterface
             ('GET' === $this->requestMethod) ? 'query' : 'json' => $credentials,
         ];
         return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
-    }
-
-    /**
-     * @return array
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 10:04
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    protected function getQuery()
-    {
-        return [$this->queryName ?: $this->tokenKey => $this->getToken()[$this->tokenKey]];
     }
 
     /**

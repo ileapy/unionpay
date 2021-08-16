@@ -38,11 +38,6 @@ class AccessToken implements AccessTokenInterface
     protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/token";
 
     /**
-     * @var string
-     */
-    protected $queryName;
-
-    /**
      * @var array
      */
     protected $token;
@@ -101,7 +96,7 @@ class AccessToken implements AccessTokenInterface
 
         $token = $this->requestToken($this->getCredentials());
 
-        $this->setToken($token[$this->tokenKey], $token['expiresIn'] ?: 7200);
+        $this->setToken($token[$this->tokenKey], $token['openId'], $token['expiresIn'] ?: 7200);
 
         $this->app->events->dispatch(new AccessTokenRefreshed($this));
 
@@ -122,14 +117,14 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @param string $token
+     * @param array $token
      * @param int $lifetime
      * @return $this
-     * @throws \Exception
+     * @throws \Exception|\Psr\Cache\InvalidArgumentException
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 10:35
      */
-    public function setToken($token, $lifetime = 7200)
+    public function setToken($token, $openId, $lifetime = 7200)
     {
         $cacheKey = $this->getCacheKey();
         $cache = $this->getCache();
@@ -145,6 +140,36 @@ class AccessToken implements AccessTokenInterface
         // 保存
         $cache->save($cacheItem);
 
+        // 保存code缓存
+        $this->setCacheCode($openId, $lifetime);
+
+        return $this;
+    }
+
+    /**
+     * code缓存起来
+     * @param $openId
+     * @param $lifetime
+     * @return $this
+     * @author cfn <cfn@leapy.cn>
+     * @date 2021/8/16 19:58
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function setCacheCode($openId, $lifetime)
+    {
+        $cache = $this->getCache();
+
+        $cacheItem = $cache->getItem(md5($openId));
+        $cacheItem->expiresAfter($lifetime);
+
+        $cacheItem->set(array(
+            'code' => $this->code,
+            'expiresIn' => $lifetime
+        ));
+
+        // 保存
+        $cache->save($cacheItem);
+
         return $this;
     }
 
@@ -152,7 +177,7 @@ class AccessToken implements AccessTokenInterface
      * @param array $credentials
      * @return mixed
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 13:42
+     * @date 2021/8/16 19:22
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function requestToken(array $credentials)
@@ -178,17 +203,6 @@ class AccessToken implements AccessTokenInterface
             ('GET' === $this->requestMethod) ? 'query' : 'json' => $credentials,
         ];
         return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
-    }
-
-    /**
-     * @return array
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 10:04
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    protected function getQuery()
-    {
-        return [$this->queryName ?: $this->tokenKey => $this->getToken()[$this->tokenKey]];
     }
 
     /**
