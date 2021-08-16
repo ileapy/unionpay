@@ -7,7 +7,6 @@
 
 namespace unionpay\MiniProgram\access;
 
-use HttpException;
 use unionpay\Kernel\Contracts\AccessTokenInterface;
 use unionpay\Kernel\Events\AccessTokenRefreshed;
 use unionpay\Kernel\ServiceContainer;
@@ -84,8 +83,7 @@ class AccessToken implements AccessTokenInterface
      * @param false $refresh
      * @return array|mixed
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 11:28
-     * @throws HttpException
+     * @date 2021/8/16 13:42
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\Cache\InvalidArgumentException
      */
@@ -114,8 +112,7 @@ class AccessToken implements AccessTokenInterface
      * @param string $code
      * @return array|mixed|AccessTokenInterface
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 11:28
-     * @throws HttpException
+     * @date 2021/8/16 13:43
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\Cache\InvalidArgumentException
      */
@@ -154,9 +151,9 @@ class AccessToken implements AccessTokenInterface
     /**
      * @param array $credentials
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException|HttpException
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 10:06
+     * @date 2021/8/16 13:42
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function requestToken(array $credentials)
     {
@@ -164,7 +161,7 @@ class AccessToken implements AccessTokenInterface
         $result = json_decode($response->getBody()->getContents(), true);
 
         if (empty($result) || !isset($result['resp']) || $result['resp'] != "00" || !isset($result['params'])) {
-            throw new HttpException('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response, $result);
+            throw new \Exception('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
         }
 
         return $result['params'];
