@@ -26,11 +26,11 @@ class TripleEncrypt
         $key = pack("H*", $key);
         $iv = pack("H*", $iv);
         $input = self::addPKCS7Padding($input);
-        $td = mcrypt_module_open(MCRYPT_3DES, '', MCRYPT_MODE_ECB, '');
-        mcrypt_generic_init($td, $key, $iv);
-        $data = mcrypt_generic($td, $input);
-        mcrypt_generic_deinit($td);
-        mcrypt_module_close($td);
+        $td = @mcrypt_module_open(MCRYPT_3DES, '', MCRYPT_MODE_ECB, '');
+        @mcrypt_generic_init($td, $key, $iv);
+        $data = @mcrypt_generic($td, $input);
+        @mcrypt_generic_deinit($td);
+        @mcrypt_module_close($td);
         //$data= iconv("UTF-8","GB2312//IGNORE",$data);
         return self::removeBR(base64_encode($data));
     }
@@ -42,7 +42,7 @@ class TripleEncrypt
      */
     private static function addPKCS7Padding($source)
     {
-        $block = mcrypt_get_block_size('tripledes', 'cbc');
+        $block = @mcrypt_get_block_size('tripledes', 'cbc');
         $pad = $block - (strlen($source) % $block);
         if ($pad <= $block) {
             $char = chr($pad);
@@ -63,11 +63,11 @@ class TripleEncrypt
         $key = pack("H48", $key);
         $iv = pack("H16", $iv);
         $encrypted = base64_decode($encrypted);
-        $td = mcrypt_module_open(MCRYPT_3DES, '', MCRYPT_MODE_ECB, '');
-        mcrypt_generic_init($td, $key, $iv);
+        $td = @mcrypt_module_open(MCRYPT_3DES, '', MCRYPT_MODE_ECB, '');
+        @mcrypt_generic_init($td, $key, $iv);
         $decrypted = mdecrypt_generic($td, $encrypted);
-        mcrypt_generic_deinit($td);
-        mcrypt_module_close($td);
+        @mcrypt_generic_deinit($td);
+        @mcrypt_module_close($td);
         return self::stripPKSC5Padding($decrypted);
     }
 
