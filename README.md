@@ -1,6 +1,6 @@
 <h1 align="left"><a href="https://www.kuzuozhou.cn">Unionpay非官方开发包</a></h1>
 
-云闪付小程序非官方开发包
+银联云闪付小程序非官方开发包
 
 ## Requirement
 
