@@ -127,10 +127,6 @@ class BackendToken implements BackendTokenInterface
         // 保存
         $cache->save($cacheItem);
 
-        if (!$cacheItem->isHit()) {
-            throw new \Exception('Failed to cache backend token.');
-        }
-
         return $this;
     }
 

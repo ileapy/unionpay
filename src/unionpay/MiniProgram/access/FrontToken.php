@@ -146,10 +146,6 @@ class FrontToken implements FrontTokenInterface
         // 保存
         $cache->save($cacheItem);
 
-        if (!$cacheItem->isHit()) {
-            throw new \Exception('Failed to cache front token.');
-        }
-
         return $this;
     }
 

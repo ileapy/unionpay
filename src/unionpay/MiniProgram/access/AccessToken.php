@@ -148,10 +148,6 @@ class AccessToken implements AccessTokenInterface
         // 保存
         $cache->save($cacheItem);
 
-        if (!$cacheItem->isHit()) {
-            throw new \Exception('Failed to cache access token.');
-        }
-
         return $this;
     }
 
