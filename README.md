@@ -10,7 +10,7 @@
 ## Installation
 
 ```shell
-$ composer require "cfn/unionpay" -vvv
+$ composer require cfn/unionpay
 ```
 
 ## Usage
@@ -58,7 +58,7 @@ print_r($backendToken);
 
 ## Contact Us
 
-邮箱：cfn@leapy.cn  
+邮箱：cfn@leapy.cn
 微信：SH-CFN
 
 ## License
