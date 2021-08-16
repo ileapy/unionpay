@@ -19,7 +19,7 @@
             "email": "cfn@leapy.cn"
         }
     ],
-    "minimum-stability": "alpha",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "unionpay\\": "src/unionpay"
