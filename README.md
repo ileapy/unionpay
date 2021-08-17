@@ -117,7 +117,7 @@ print_r($frontToken);
 ### 获取手机号加密字符串：
 
 ```php
-// 第一个参数就是access_token获取到的openid，第二个参数代表是否解密
+// 第一个参数就是获取access_token时返回的openid，第二个参数代表是否解密
 $mobile = $app->mobile->getMobile('YbknmZra+VRPee76j+IVFeQHQ0vQ3pAZHVaCw7ovJQk/jTof+GMd6DSDRQAf/gaf', false);
 
 print_r($mobile);
