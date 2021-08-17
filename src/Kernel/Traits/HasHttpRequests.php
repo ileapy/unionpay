@@ -10,6 +10,7 @@ namespace unionpay\Kernel\Traits;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
+use Psr\Log\InvalidArgumentException;
 
 trait HasHttpRequests
 {
@@ -42,7 +43,7 @@ trait HasHttpRequests
      *
      * @param array $defaults
      */
-    public static function setDefaultOptions($defaults = [])
+    protected static function setDefaultOptions($defaults = [])
     {
         self::$defaults = $defaults;
     }
@@ -50,7 +51,7 @@ trait HasHttpRequests
     /**
      * Return current guzzle default settings.
      */
-    public static function getDefaultOptions()
+    protected static function getDefaultOptions()
     {
         return self::$defaults;
     }
@@ -60,7 +61,7 @@ trait HasHttpRequests
      *
      * @return $this
      */
-    public function setHttpClient(ClientInterface $httpClient)
+    protected function setHttpClient(ClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
 
@@ -70,7 +71,7 @@ trait HasHttpRequests
     /**
      * Return GuzzleHttp\ClientInterface instance.
      */
-    public function getHttpClient()
+    protected function getHttpClient()
     {
         if (!($this->httpClient instanceof ClientInterface)) {
             if (property_exists($this, 'app') && $this->app['http_client']) {
@@ -91,7 +92,7 @@ trait HasHttpRequests
      *
      * @return $this
      */
-    public function pushMiddleware(callable $middleware, string $name = null)
+    protected function pushMiddleware(callable $middleware, $name = null)
     {
         if (!is_null($name)) {
             $this->middlewares[$name] = $middleware;
@@ -105,7 +106,7 @@ trait HasHttpRequests
     /**
      * Return all middlewares.
      */
-    public function getMiddlewares()
+    protected function getMiddlewares()
     {
         return $this->middlewares;
     }
@@ -119,7 +120,7 @@ trait HasHttpRequests
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function request($url, $method = 'GET', $options = [])
+    protected function request($url, $method = 'GET', $options = [])
     {
         $method = strtoupper($method);
 
@@ -140,7 +141,7 @@ trait HasHttpRequests
     /**
      * @return $this
      */
-    public function setHandlerStack(HandlerStack $handlerStack)
+    protected function setHandlerStack(HandlerStack $handlerStack)
     {
         $this->handlerStack = $handlerStack;
 
@@ -150,7 +151,7 @@ trait HasHttpRequests
     /**
      * Build a handler stack.
      */
-    public function getHandlerStack()
+    protected function getHandlerStack()
     {
         if ($this->handlerStack) {
             return $this->handlerStack;
@@ -196,5 +197,51 @@ trait HasHttpRequests
         }
 
         return \GuzzleHttp\choose_handler();
+    }
+
+    /**
+     * @param array $credentials
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Exception
+     * @author cfn <cfn@leapy.cn>
+     * @date 2021/8/16 10:06
+     */
+    protected function requestToken($credentials)
+    {
+        $response = $this->sendRequest($credentials);
+        $result = json_decode($response->getBody()->getContents(), true);
+
+        if (empty($result) || !isset($result['resp']) || $result['resp'] != "00" || !isset($result['params'])) {
+            throw new \Exception('Request mobile fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
+        }
+
+        return $result['params'];
+    }
+
+    /**
+     * Send http request.
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function sendRequest($credentials)
+    {
+        $options = [
+            ('GET' === $this->requestMethod) ? 'query' : 'json' => $credentials,
+        ];
+        return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
+    }
+
+    /**
+     * @return string
+     * @author cfn <cfn@leapy.cn>
+     * @date 2021/8/16 10:04
+     */
+    protected function getEndpoint()
+    {
+        if (empty($this->endpointToPostToken)) {
+            throw new InvalidArgumentException('No endpoint request.');
+        }
+        return $this->endpointToPostToken;
     }
 }

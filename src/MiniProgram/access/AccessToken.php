@@ -124,7 +124,7 @@ class AccessToken implements AccessTokenInterface
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 10:35
      */
-    public function setToken($token, $openId, $lifetime = 7200)
+    protected function setToken($token, $openId, $lifetime = 7200)
     {
         $cacheKey = $this->getCacheKey();
         $cache = $this->getCache();
@@ -155,7 +155,7 @@ class AccessToken implements AccessTokenInterface
      * @date 2021/8/16 19:58
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function setCacheCode($openId, $lifetime)
+    protected function setCacheCode($openId, $lifetime)
     {
         $cache = $this->getCache();
 
@@ -171,53 +171,6 @@ class AccessToken implements AccessTokenInterface
         $cache->save($cacheItem);
 
         return $this;
-    }
-
-    /**
-     * @param array $credentials
-     * @return mixed
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 19:22
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function requestToken(array $credentials)
-    {
-        $response = $this->sendRequest($credentials);
-        $result = json_decode($response->getBody()->getContents(), true);
-
-        if (empty($result) || !isset($result['resp']) || $result['resp'] != "00" || !isset($result['params'])) {
-            throw new \Exception('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
-        }
-
-        return $result['params'];
-    }
-
-    /**
-     * Send http request.
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    protected function sendRequest(array $credentials)
-    {
-        $options = [
-            ('GET' === $this->requestMethod) ? 'query' : 'json' => $credentials,
-        ];
-        return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
-    }
-
-    /**
-     * @return mixed
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 11:21
-     * @throws \Exception
-     */
-    public function getEndpoint()
-    {
-        if (empty($this->endpointToPostToken)) {
-            throw new \Exception('No endpoint request.');
-        }
-
-        return $this->endpointToPostToken;
     }
 
     /**

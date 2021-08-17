@@ -1,7 +1,7 @@
 <?php
 /**
  * User: cfn <cfn@leapy.cn>
- * Datetime: 2021/8/16 19:09
+ * Datetime: 2021/8/17 16:14
  * Copyright: php
  */
 
@@ -12,11 +12,11 @@ use unionpay\Kernel\Traits\HasHttpRequests;
 use unionpay\Kernel\Traits\InteractsWithCache;
 
 /**
- * Class Mobile
+ * Class UserStatus
  *
  * @package unionpay\MiniProgram\user
  */
-class Mobile
+class UserStatus
 {
     use HasHttpRequests;
     use InteractsWithCache;
@@ -34,7 +34,7 @@ class Mobile
     /**
      * @var string
      */
-    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/user.mobile";
+    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/user.status";
 
     /**
      * @var array
@@ -66,13 +66,11 @@ class Mobile
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 19:23
      */
-    public function getMobile($openId, $decrypt = true)
+    public function getUserStatus($openId, $decrypt = true)
     {
         $this->openId = $openId;
 
         $data = $this->requestToken($this->getCredentials());
-
-        if (!isset($data['mobile'])) throw new \Exception('获取手机号失败，返回值为空');
 
         // 解密返回
         if ($decrypt)
@@ -102,7 +100,6 @@ class Mobile
     /**
      * @return array
      * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \Exception
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 19:23
      */

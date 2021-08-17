@@ -7,7 +7,6 @@
 
 namespace unionpay\MiniProgram\access;
 
-use Psr\Log\InvalidArgumentException;
 use unionpay\Kernel\Contracts\BackendTokenInterface;
 use unionpay\Kernel\Events\BackendTokenRefreshed;
 use unionpay\Kernel\ServiceContainer;
@@ -96,6 +95,18 @@ class BackendToken implements BackendTokenInterface
     }
 
     /**
+     * @return array|mixed|\unionpay\Kernel\Contracts\AccessTokenInterface
+     * @author cfn <cfn@leapy.cn>
+     * @date 2021/8/16 19:20
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function getRefreshedToken()
+    {
+        return $this->getToken(true);
+    }
+
+    /**
      * @param string $token
      * @param int $lifetime
      * @return $this
@@ -103,7 +114,7 @@ class BackendToken implements BackendTokenInterface
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 10:35
      */
-    public function setToken($token, $lifetime = 7200)
+    protected function setToken($token, $lifetime = 7200)
     {
         $cacheKey = $this->getCacheKey();
         $cache = $this->getCache();
@@ -120,64 +131,6 @@ class BackendToken implements BackendTokenInterface
         $cache->save($cacheItem);
 
         return $this;
-    }
-
-    /**
-     * @param array $credentials
-     * @return mixed
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 19:20
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function requestToken(array $credentials)
-    {
-        $response = $this->sendRequest($credentials);
-        $result = json_decode($response->getBody()->getContents(), true);
-
-        if (empty($result) || !isset($result['resp']) || $result['resp'] != "00" || !isset($result['params'])) {
-            throw new \Exception('Request backend_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
-        }
-
-        return $result['params'];
-    }
-
-    /**
-     * @return array|mixed|\unionpay\Kernel\Contracts\AccessTokenInterface
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 19:20
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Psr\Cache\InvalidArgumentException
-     */
-    public function getRefreshedToken()
-    {
-        return $this->getToken(true);
-    }
-
-    /**
-     * Send http request.
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    protected function sendRequest(array $credentials)
-    {
-        $options = [
-            ('GET' === $this->requestMethod) ? 'query' : 'json' => $credentials,
-        ];
-        return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
-    }
-
-    /**
-     * @return string
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 10:04
-     */
-    public function getEndpoint()
-    {
-        if (empty($this->endpointToPostToken)) {
-            throw new InvalidArgumentException('No endpoint request.');
-        }
-
-        return $this->endpointToPostToken;
     }
 
     /**

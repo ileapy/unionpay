@@ -122,7 +122,7 @@ class FrontToken implements FrontTokenInterface
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 10:35
      */
-    public function setToken($token, $lifetime = 7200)
+    protected function setToken($token, $lifetime = 7200)
     {
         $cacheKey = $this->getCacheKey();
         $cache = $this->getCache();
@@ -139,53 +139,6 @@ class FrontToken implements FrontTokenInterface
         $cache->save($cacheItem);
 
         return $this;
-    }
-
-    /**
-     * @param array $credentials
-     * @return mixed
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 19:19
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function requestToken(array $credentials)
-    {
-        $response = $this->sendRequest($credentials);
-        $result = json_decode($response->getBody()->getContents(), true);
-
-        if (empty($result) || !isset($result['resp']) || $result['resp'] != "00" || !isset($result['params'])) {
-            throw new \Exception('Request front_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response, $result);
-        }
-
-        return $result['params'];
-    }
-
-    /**
-     * Send http request.
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    protected function sendRequest(array $credentials)
-    {
-        $options = [
-            ('GET' === $this->requestMethod) ? 'query' : 'json' => $credentials,
-        ];
-        return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
-    }
-
-    /**
-     * @return string
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 19:21
-     * @throws \Exception
-     */
-    public function getEndpoint()
-    {
-        if (empty($this->endpointToPostToken)) {
-            throw new \Exception('No endpoint request.');
-        }
-
-        return $this->endpointToPostToken;
     }
 
     /**

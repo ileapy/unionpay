@@ -9,8 +9,6 @@ namespace unionpay\MiniProgram\des;
 
 use unionpay\Kernel\ServiceContainer;
 use unionpay\Kernel\Support\TripleEncrypt;
-use unionpay\Kernel\Traits\HasHttpRequests;
-use unionpay\Kernel\Traits\InteractsWithCache;
 
 /**
  * Class TripleEncrypt
@@ -19,9 +17,6 @@ use unionpay\Kernel\Traits\InteractsWithCache;
  */
 class Crypto
 {
-    use HasHttpRequests;
-    use InteractsWithCache;
-
     /**
      * @var ServiceContainer
      */
@@ -58,7 +53,7 @@ class Crypto
     /**
      * 加密
      * @param $data
-     * @return false|string
+     * @return string
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 20:30
      */

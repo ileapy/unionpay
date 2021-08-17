@@ -11,7 +11,8 @@ namespace unionpay;
  * Class Factory
  *
  * @method static \unionpay\MiniProgram\Application        miniProgram(array $config)
- *
+ * @method static \unionpay\Payment\Application            payment(array $config)
+ * 
  * @package uniopay
  */
 class Factory

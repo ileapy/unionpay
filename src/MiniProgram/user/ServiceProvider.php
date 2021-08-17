@@ -27,5 +27,21 @@ class ServiceProvider implements ServiceProviderInterface
         $app['mobile'] = function ($app) {
             return new Mobile($app);
         };
+
+        $app['auth'] = function ($app) {
+            return new Auth($app);
+        };
+
+        $app['card'] = function ($app) {
+            return new Card($app);
+        };
+
+        $app['card_token'] = function ($app) {
+            return new CardToken($app);
+        };
+
+        $app['user_status'] = function ($app) {
+            return new UserStatus($app);
+        };
     }
 }

@@ -22,16 +22,19 @@ $ composer require cfn/unionpay
 
 | 模块名称       | 使用场景         | 接口方法                               |
 | ------------------------- | ------------------ | ------------------------------------------ |
-|MiniProgram<br/>小程序 | BackendToken<br/>应用访问令牌 | getToken<br/>获取应用访问令牌backendToken |
-| MiniProgram<br/>小程序 | BackendToken<br/>应用访问令牌 | getRefreshedToken<br/>刷新并获取应用访问令牌backendToken |
-| MiniProgram<br/>小程序 | AccessToken<br/>授权访问令牌 | getToken<br/>获取授权访问令牌accessToken |
-|MiniProgram<br/>小程序 | AccessToken<br/>授权访问令牌 | getRefreshedToken<br/>刷新并获取授权访问令牌accessToken |
+| MiniProgram<br/>小程序 | BackendToken<br/>获取应用访问令牌backendToken | getToken<br/>`backendToken` 是应用的服务端 API 的访问令牌，控制对服务端 API 的访问。`backendToken` 的有效期通过接口返回，目前设置为 7200 秒，接入方获取相应基础访问令牌后，需放入缓存，定期更新。 |
+| MiniProgram<br/>小程序 | BackendToken<br/>获取应用访问令牌backendToken | getRefreshedToken<br/>刷新并获取应用访问令牌backendToken |
+| MiniProgram<br/>小程序 | AccessToken<br/>获取授权访问令牌accessToken | getToken<br/>获取用户授权访问令牌 `accessToken` , 经过用户授权完成后，可通过授权访问令牌调用对应权限可访问的服务端 API 。 |
+| MiniProgram<br/>小程序 | AccessToken<br/>获取授权访问令牌accessToken | getRefreshedToken<br/>刷新并获取授权访问令牌accessToken |
 | MiniProgram<br/>小程序 | FrontToken<br/>基础访问令牌 | getToken<br/>调用upsdk 的基础访问令牌 |
 | MiniProgram<br/>小程序 | FrontToken<br/>基础访问令牌 | getRefreshedToken<br/>刷新并获取upsdk的基础访问令牌 |
-|MiniProgram<br/>小程序 | Mobile<br/>获取手机号 | getMobile<br/>获取手机号加密字符串 |
+| MiniProgram<br/>小程序 | Mobile<br/>获取手用户机号 | getMobile<br/>通过用户手机号授权 `scope.mobile` 完成后，通过该接口获取用户手机号。 |
+| MiniProgram<br/>小程序 | Auth<br/>获取用户实名信息 | getAuth<br/>通过用户实名授权 `scope.auth` 完成后，通过该接口获取用户实名信息。 |
+| MiniProgram<br/>小程序 | Card<br/>获取用户绑定的银行卡列表（仅限银行小程序使用） | getCardList<br/>通过用户银行卡授权 `scope.bank` 完成后，银行小程序可获取用户绑定的该行银行卡列表信息。 |
+| MiniProgram<br/>小程序 | CardToken<br/>获取用户授权卡token | getCardToken<br/>通过用户授权卡 token `scope.token` ，获取用户授权指定卡 `token` 。 |
+| MiniProgram<br/>小程序 | UserStatus<br/>查询用户状态 | getUserStatus<br/>通过该接口可判断用户当前状态 |
 | MiniProgram<br/>小程序 | Crypto<br/>加解密 | encrypt<br/>3DES加密（加密信息） |
-| MiniProgram<br/>小程序 | Crypto<br/>加解密 | decrypt<br/>3DES解密（解密信息解密例如手机号） |
-
+| MiniProgram<br/>小程序 | Crypto<br/>加解密 | decrypt<br/>3DES解密（解密信息例如解密手机号） |
 
 还有更多在积极适配中......
 
@@ -114,7 +117,8 @@ print_r($frontToken);
 ### 获取手机号加密字符串：
 
 ```php
-$mobile = $app->mobile->getMobile('YbknmZra+VRPee76j+IVFeQHQ0vQ3pAZHVaCw7ovJQk/jTof+GMd6DSDRQAf/gaf');
+// 第一个参数就是access_token获取到的openid，第二个参数代表是否解密
+$mobile = $app->mobile->getMobile('YbknmZra+VRPee76j+IVFeQHQ0vQ3pAZHVaCw7ovJQk/jTof+GMd6DSDRQAf/gaf', false);
 
 print_r($mobile);
 

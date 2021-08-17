@@ -27,7 +27,7 @@ trait InteractsWithCache
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 9:46
      */
-    public function getCache()
+    protected function getCache()
     {
         if ($this->cache) {
             return $this->cache;
@@ -51,7 +51,7 @@ trait InteractsWithCache
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 9:16
      */
-    public function setCache($cache)
+    protected function setCache($cache)
     {
         $this->cache = $cache;
 

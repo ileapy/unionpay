@@ -16,6 +16,10 @@ use unionpay\Kernel\ServiceContainer;
  * @property \unionpay\MiniProgram\access\BackendToken           $backend_token
  * @property \unionpay\MiniProgram\access\FrontToken             $front_token
  * @property \unionpay\MiniProgram\user\Mobile                   $mobile
+ * @property \unionpay\MiniProgram\user\Card                     $card
+ * @property \unionpay\MiniProgram\user\CardToken                $cardToken
+ * @property \unionpay\MiniProgram\user\Auth                     $auth
+ * @property \unionpay\MiniProgram\user\UserStatus               $user_status
  * @property \unionpay\MiniProgram\des\Crypto                    $crypto
  *
  * @package uniopay\MiniProgram

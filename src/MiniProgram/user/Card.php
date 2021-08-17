@@ -1,7 +1,7 @@
 <?php
 /**
  * User: cfn <cfn@leapy.cn>
- * Datetime: 2021/8/16 19:09
+ * Datetime: 2021/8/17 16:11
  * Copyright: php
  */
 
@@ -12,11 +12,11 @@ use unionpay\Kernel\Traits\HasHttpRequests;
 use unionpay\Kernel\Traits\InteractsWithCache;
 
 /**
- * Class Mobile
+ * Class Card
  *
  * @package unionpay\MiniProgram\user
  */
-class Mobile
+class Card
 {
     use HasHttpRequests;
     use InteractsWithCache;
@@ -34,7 +34,7 @@ class Mobile
     /**
      * @var string
      */
-    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/user.mobile";
+    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/oauth.getCardList";
 
     /**
      * @var array
@@ -45,6 +45,21 @@ class Mobile
      * @var string
      */
     protected $openId = "";
+
+    /**
+     * @var string
+     */
+    private $cardTp;
+
+    /**
+     * @var string
+     */
+    private $needSameName;
+
+    /**
+     * @var string
+     */
+    private $needPay;
 
     /**
      * AccessToken constructor.
@@ -59,6 +74,9 @@ class Mobile
 
     /**
      * @param string $openId openid
+     * @param string $cardTp 需要获取的卡列表类型：（ 00 ：全部， 01 ：借记卡， 02 ：贷记卡， 03 ：准贷记卡， 04 ：借贷合一卡）
+     * @param string $needSameName 是否要求卡同名：（ 0 :不需要，同名卡和非同名卡都返回， 1 :需要，只返回同名卡）
+     * @param string $needPay 是否要求开通支付的卡（ 0 ：不需要，支付卡和非支付卡都返回， 1 ：需要，只返回开通支付支付卡）
      * @param bool $decrypt 是否解密返回
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -66,19 +84,21 @@ class Mobile
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 19:23
      */
-    public function getMobile($openId, $decrypt = true)
+    public function getCardList($openId, $cardTp = "00", $needSameName = "0", $needPay = "0", $decrypt = true)
     {
         $this->openId = $openId;
+        $this->cardTp = $cardTp;
+        $this->needSameName = $needSameName;
+        $this->needPay = $needPay;
 
         $data = $this->requestToken($this->getCredentials());
 
-        if (!isset($data['mobile'])) throw new \Exception('获取手机号失败，返回值为空');
-
         // 解密返回
-        if ($decrypt)
-            foreach ($data as $k => $v)
-                if ($v)
-                    $data[$k] = $this->app->crypto->decrypt($data[$k]);
+        if ($decrypt && !empty($data) && isset($data['cardList']))
+            foreach ($data['cardList'] as &$card)
+                foreach ($card as $k => $v)
+                    if ($v)
+                        $card[$k] = $this->app->crypto->decrypt($v);
 
         return $data;
     }
@@ -102,7 +122,6 @@ class Mobile
     /**
      * @return array
      * @throws \Psr\Cache\InvalidArgumentException
-     * @throws \Exception
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 19:23
      */
@@ -115,7 +134,10 @@ class Mobile
             'appId' => $this->config['appid'],
             'accessToken' => $this->app->access_token->getToken($code)['accessToken'],
             'openId' => $this->openId,
-            'backendToken' => $this->app->backend_token->getToken()['backendToken']
+            'backendToken' => $this->app->backend_token->getToken()['backendToken'],
+            'cardTp' => $this->cardTp,
+            'needSameName' => $this->needSameName,
+            'needPay' => $this->needPay
         ];
     }
 }
