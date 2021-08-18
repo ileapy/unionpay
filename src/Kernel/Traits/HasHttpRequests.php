@@ -21,11 +21,6 @@ trait HasHttpRequests
     protected $httpClient;
 
     /**
-     * @var string
-     */
-    protected $sendPostDataType = 'json';
-
-    /**
      * @var array
      */
     protected $middlewares = [];
@@ -238,7 +233,7 @@ trait HasHttpRequests
     protected function sendRequest($credentials)
     {
         $options = [
-            ('GET' === $this->requestMethod) ? 'query' : $this->sendPostDataType => $credentials,
+            ('GET' === $this->requestMethod) ? 'query' : $this->config['http_post_data_type'] => $credentials,
         ];
         return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
     }

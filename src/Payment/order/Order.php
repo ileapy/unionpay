@@ -58,7 +58,6 @@ class Order
     {
         $this->app = $app;
         $this->config = $app['config']->toArray();
-        $this->sendPostDataType = 'form_params';
     }
 
     /**

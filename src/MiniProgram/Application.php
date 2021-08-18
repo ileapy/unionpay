@@ -36,12 +36,18 @@ class Application extends ServiceContainer
     ];
 
     /**
-     * Handle dynamic calls.
-     *
-     * @param string $method
-     * @param array  $args
-     *
+     * @var string[]
+     */
+    protected $defaultConfig = [
+        'http_post_data_type' => 'json',
+    ];
+
+    /**
+     * @param $method
+     * @param $args
      * @return mixed
+     * @author cfn <cfn@leapy.cn>
+     * @date 2021/8/18 22:24
      */
     public function __call($method, $args)
     {

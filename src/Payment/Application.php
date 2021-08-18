@@ -39,6 +39,7 @@ class Application extends ServiceContainer
      * @var string[]
      */
     protected $defaultConfig = [
+        'http_post_data_type' => 'form_params',
         'cert' => [
             'middleCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'middle.cer',
             'rootCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'root.cer'
@@ -68,11 +69,11 @@ class Application extends ServiceContainer
 
     /**
      * Handle dynamic calls.
-     *
-     * @param string $method
-     * @param array  $args
-     *
+     * @param $method
+     * @param $args
      * @return mixed
+     * @author cfn <cfn@leapy.cn>
+     * @date 2021/8/18 22:24
      */
     public function __call($method, $args)
     {
