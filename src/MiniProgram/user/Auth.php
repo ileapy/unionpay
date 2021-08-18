@@ -34,7 +34,7 @@ class Auth
     /**
      * @var string
      */
-    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/user.auth";
+    protected $endpoint = "https://open.95516.com/open/access/1.0/user.auth";
 
     /**
      * @var array

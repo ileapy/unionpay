@@ -32,7 +32,7 @@ class BackendToken implements BackendTokenInterface
     /**
      * @var string
      */
-    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/backendToken";
+    protected $endpoint = "https://open.95516.com/open/access/1.0/backendToken";
 
     /**
      * @var array

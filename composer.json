@@ -10,7 +10,9 @@
         "symfony/event-dispatcher": "^4.3 || ^5.0",
         "ext-json": "*",
         "ext-curl": "*",
-        "ext-mcrypt": "*"
+        "ext-mcrypt": "*",
+        "ext-zlib": "*",
+        "ext-openssl": "*"
     },
     "license": "MIT",
     "authors": [

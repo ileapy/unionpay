@@ -35,6 +35,11 @@ class ServiceContainer extends Container
     /**
      * @var array
      */
+    protected $defaultConfig = [];
+
+    /**
+     * @var array
+     */
     protected $userConfig = [];
 
     /**
@@ -87,10 +92,9 @@ class ServiceContainer extends Container
                 'timeout' => 30.0,
                 'base_uri' => 'https://open.95516.com/',
                 'verify' => false // 不验证https证书
-            ],
+            ]
         ];
-
-        return array_replace_recursive($base, $this->userConfig);
+        return array_replace_recursive($base, $this->defaultConfig, $this->userConfig);
     }
 
     /**

@@ -34,7 +34,7 @@ class CardToken
     /**
      * @var string
      */
-    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/user.checkedCard";
+    protected $endpoint = "https://open.95516.com/open/access/1.0/user.checkedCard";
 
     /**
      * @var array
@@ -101,6 +101,7 @@ class CardToken
     /**
      * @return array
      * @throws \Psr\Cache\InvalidArgumentException
+     * @throws \Exception
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 19:23
      */

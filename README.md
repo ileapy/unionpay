@@ -35,6 +35,7 @@ $ composer require cfn/unionpay
 | MiniProgram<br/>小程序 | UserStatus<br/>查询用户状态 | getUserStatus<br/>通过该接口可判断用户当前状态 |
 | MiniProgram<br/>小程序 | Crypto<br/>加解密 | encrypt<br/>3DES加密（加密信息） |
 | MiniProgram<br/>小程序 | Crypto<br/>加解密 | decrypt<br/>3DES解密（解密信息例如解密手机号） |
+| Payment<br/>手机支付控件 | Order<br/>消费接口 | pay<br/>获取银联受理订单号（TN号） |
 
 还有更多在积极适配中......
 
@@ -53,14 +54,14 @@ $ composer require cfn/unionpay
 use unionpay\Factory;
 
 $options = [
-    'appid' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'secret' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'symmetricKey' => 'xxxxxxxxxxxxxxxxxxxxxxxxx',
-    'debug' => true,
-    'merId' => 'xxxxxxxxxxxxxxxx', // 支付时使用
-    'pfx' => '', // 支付时使用
-    'pwd' => 'xxxxxxxxxxxxxxxxx', // 支付时使用
-    'cer' => '' // 支付时使用
+    'appid' => '*********', // appid
+    'secret' => '*********', // 密钥
+    'symmetricKey' => '*********', // 对称密钥
+    'merId' => '*********', // 商户编号
+    'signCertPath' => '*********', // 签名证书路径pfx结尾
+    'signCertPwd' => '*********', // 签名证书密码
+    'encryptCertPath' => '*********', // 敏感信息加密证书路径 cer结尾
+    'debug' => False // debug模式
 ];
 
 $app = Factory::miniProgram($options);
@@ -138,6 +139,82 @@ var_dump($mobile);
 
 // 输出
 //string(11) "1**********"
+```
+
+### 获取TN号支付：
+
+```php
+<?php
+/**
+ * User: cfn <cfn@leapy.cn>
+ * Datetime: 2021/8/15 22:34
+ * Copyright: php
+ */
+
+use unionpay\Factory;
+
+$options = [
+    'appid' => '*********', // appid
+    'secret' => '*********', // 密钥
+    'symmetricKey' => '*********', // 对称密钥
+    'merId' => '*********', // 商户编号
+    'signCertPath' => '*********', // 签名证书路径pfx结尾
+    'signCertPwd' => '*********', // 签名证书密码
+    'encryptCertPath' => '*********', // 敏感信息加密证书路径 cer结尾
+    'debug' => False // debug模式
+];
+
+$app = Factory::payment($options);
+
+// txnAmt支付金额（分），orderId商户订单号
+$data = $app->order->pay(['txnAmt' => 1, 'orderId' => date('YmdHis').rand(1000,9999)]);
+
+// 返回的结果已验签，不必再验签
+print_r($data);
+
+// 输出
+// Array
+// (
+//     [bizType] => 000201
+//     [txnSubType] => 01
+//     [orderId] => **************
+//     [txnType] => 01
+//     [encoding] => utf-8
+//     [version] => 5.1.0
+//     [accessType] => 0
+//     [txnTime] => **************
+//     [respMsg] => 成功[0000000]
+//     [merId] => **************
+//     [tn] => **************
+//     [signMethod] => 01
+//     [respCode] => 00
+//     [signPubKeyCert] => -----BEGIN CERTIFICATE-----
+// MIIEKzCCAxOgAwIBAgIFEpVGRCEwDQYJKoZIhvcNAQEFBQAwITELMAkGA1UEBhMC
+// Q04xEjAQBgNVBAoTCUNGQ0EgT0NBMTAeFw0yMDA3MTYwOTM4MzRaFw0yNTA3MTYw
+// OTM4MzRaMIGWMQswCQYDVQQGEwJjbjESMBAGA1UEChMJQ0ZDQSBPQ0ExMRYwFAYD
+// VQQLEw1Mb2NhbCBSQSBPQ0ExMRQwEgYDVQQLEwtFbnRlcnByaXNlczFFMEMGA1UE
+// Aww8MDQxQDgzMTAwMDAwMDAwODMwNDBA5Lit5Zu96ZO26IGU6IKh5Lu95pyJ6ZmQ
+// 5YWs5Y+4QDAwMDE2NDk0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+// r50XGgVgM+8NnK3fDoMkqy0E+KcnnA6lQflB0Oet1zemVIzzn+76tPS0vV02OcpV
+// u9dPt5iq83pMKBLY9isUuyRUWz8fn8Z7o3KvBoCRK4edtui/ihUt5vysJ920s8aG
+// CbBRAdRmdIa44ha6W61KEJqrhw5iI2QkDK6OgVxs7imXgYiMc5lxLQL+9bRRGbKq
+// zCAidolds633dQC58GZCtKIGvnwuDo8GGVTtjci7OU4c+54vtss2aDnE4QfLY4OY
+// 1y+YXqy0D8Pax9T8ZnX7op8rCcO7FyH+0xgYA6gGnFlE3puiqxCFXCD7QI0np/bA
+// XuZ6tIoBrqKGvsUobVO3swIDAQABo4HzMIHwMB8GA1UdIwQYMBaAFNHb6YiC5d0a
+// j0yqAIy+fPKrG/bZMEgGA1UdIARBMD8wPQYIYIEchu8qAQEwMTAvBggrBgEFBQcC
+// ARYjaHR0cDovL3d3dy5jZmNhLmNvbS5jbi91cy91cy0xNC5odG0wOAYDVR0fBDEw
+// LzAtoCugKYYnaHR0cDovL2NybC5jZmNhLmNvbS5jbi9SU0EvY3JsMjQ5NjMuY3Js
+// MAsGA1UdDwQEAwID6DAdBgNVHQ4EFgQUQP9Yqy8KJGuiHVVGrE1k+OryQyYwHQYD
+// VR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMA0GCSqGSIb3DQEBBQUAA4IBAQBk
+// OfvkzBq1GSgBCED+ETg15xpIz/Zujb9PkgNY0UinywYIjkn6dfluMIk2cNiCOMfM
+// Rg6LhtFi01Fnn3qwHe2vCEVBPJlazSsFE61tRCBTTWm8p/zfZKI9wGyir5aYBiPC
+// TRPgXaQ4cYqSAh1n98a4ONBy2/StBl+TfKvCIoXARUSp12lOVY/aKg+8Jk4MIvEw
+// 8WCL98tTVxXe1nWPlpFDS9y0ivMyfYlWkTb6+0gMrYA2nzrfFGS1KZNRBS7p3Bh5
+// tdBPIgSd5gLZpAun8d0C3CcRZhcIof9hmxIc9ieQoWas52oVZDzsaGTo9rsTo9nU
+// 3N3BThugW+P/koUnIFRG
+// -----END CERTIFICATE-----
+//     [signature] => fxLxEKV4GGLpvUnYsaCILUh6YyYI/jgwdeh94dGrT75nwGCOnspmB06cuzNj7G47mIR/TJZ0EEafJjaL2gkanVQMk4RfSMWGc+xcj8IYhdprbqZHyy7tbMCIMCDRlz1QKK2+UXXHs+dYDWHwqp3t4ZXpZ/GkmFNCRuExtzCcdotgzLGAc6PhGCKmL0nKC+ekGB48uLsg3lsmSTO08RUk9G32cOxqcFoVjhDJRjeqnccBo16GEjOT8TiyJOqFiG8Jk+E3ZZcYo1JM1FVRzR7TXuVcxEJmdePM3Akmtxa9MsuHMM0YP8YqPwN9Z9PH72fAplsAFPCAwhQrCeNjX6+f9g==
+//)
 ```
 
 > 更多示例请参考 [https://www.kuzuozhou.cn/](https://www.kuzuozhou.cn/)。

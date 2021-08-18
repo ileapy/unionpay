@@ -11,6 +11,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
 use Psr\Log\InvalidArgumentException;
+use unionpay\Kernel\Support\AcpService;
 
 trait HasHttpRequests
 {
@@ -18,6 +19,11 @@ trait HasHttpRequests
      * @var \GuzzleHttp\ClientInterface
      */
     protected $httpClient;
+
+    /**
+     * @var string
+     */
+    protected $sendPostDataType = 'json';
 
     /**
      * @var array
@@ -210,13 +216,18 @@ trait HasHttpRequests
     protected function requestToken($credentials)
     {
         $response = $this->sendRequest($credentials);
-        $result = json_decode($response->getBody()->getContents(), true);
+        $contents = $response->getBody()->getContents();
 
-        if (empty($result) || !isset($result['resp']) || $result['resp'] != "00" || !isset($result['params'])) {
-            throw new \Exception('Request mobile fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
+        $result = json_decode($contents, true);
+
+        if (!$result && is_string($contents)) $result = AcpService::parseQString($contents);
+
+        if (empty($result) || (isset($result['resp']) && $result['resp'] != '00'))
+        {
+            throw new \Exception('Request fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
         }
 
-        return $result['params'];
+        return isset($result['resp']) ? $result['params'] : $result;
     }
 
     /**
@@ -227,7 +238,7 @@ trait HasHttpRequests
     protected function sendRequest($credentials)
     {
         $options = [
-            ('GET' === $this->requestMethod) ? 'query' : 'json' => $credentials,
+            ('GET' === $this->requestMethod) ? 'query' : $this->sendPostDataType => $credentials,
         ];
         return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
     }
@@ -239,9 +250,9 @@ trait HasHttpRequests
      */
     protected function getEndpoint()
     {
-        if (empty($this->endpointToPostToken)) {
+        if (empty($this->endpoint)) {
             throw new InvalidArgumentException('No endpoint request.');
         }
-        return $this->endpointToPostToken;
+        return $this->endpoint;
     }
 }

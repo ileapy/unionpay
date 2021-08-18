@@ -35,7 +35,7 @@ class AccessToken implements AccessTokenInterface
     /**
      * @var string
      */
-    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/token";
+    protected $endpoint = "https://open.95516.com/open/access/1.0/token";
 
     /**
      * @var array

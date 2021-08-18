@@ -34,7 +34,7 @@ class Card
     /**
      * @var string
      */
-    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/oauth.getCardList";
+    protected $endpoint = "https://open.95516.com/open/access/1.0/oauth.getCardList";
 
     /**
      * @var array

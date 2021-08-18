@@ -34,7 +34,7 @@ class UserStatus
     /**
      * @var string
      */
-    protected $endpointToPostToken = "https://open.95516.com/open/access/1.0/user.status";
+    protected $endpoint = "https://open.95516.com/open/access/1.0/user.status";
 
     /**
      * @var array
@@ -45,6 +45,11 @@ class UserStatus
      * @var string
      */
     protected $openId = "";
+
+    /**
+     * @var mixed|string
+     */
+    private $markTime = "";
 
     /**
      * AccessToken constructor.
@@ -58,17 +63,18 @@ class UserStatus
     }
 
     /**
-     * @param string $openId openid
+     * @param string $openId 用户唯一标识，通过获取授权访问令牌获取
+     * @param string $markTime 标记时间 (yyyy-MM-dd hh:mm:ss) ,如要上送此字段,必须按照规定格式
      * @param bool $decrypt 是否解密返回
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Psr\Cache\InvalidArgumentException
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 19:23
      */
-    public function getUserStatus($openId, $decrypt = true)
+    public function getUserStatus($openId, $markTime ="", $decrypt = true)
     {
         $this->openId = $openId;
+        $this->markTime = $markTime;
 
         $data = $this->requestToken($this->getCredentials());
 
@@ -82,37 +88,18 @@ class UserStatus
     }
 
     /**
-     * @param string $openId
-     * @return mixed
-     * @throws \Psr\Cache\InvalidArgumentException
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 20:01
-     */
-    public function getCode($openId)
-    {
-        $cache = $this->getCache();
-
-        $cacheItem = $cache->getItem(md5($openId));
-
-        return $cacheItem->get();
-    }
-
-    /**
      * @return array
-     * @throws \Psr\Cache\InvalidArgumentException
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 19:23
+     * @date 2021/8/17 23:31
      */
     protected function getCredentials()
     {
-        $code = $this->getCode($this->openId)['code'];
-        if (!$code) throw new \Exception("code已失效，请重新授权获取");
-
-        return [
+        $config = [
             'appId' => $this->config['appid'],
-            'accessToken' => $this->app->access_token->getToken($code)['accessToken'],
             'openId' => $this->openId,
-            'backendToken' => $this->app->backend_token->getToken()['backendToken']
+            'backendToken' => $this->app->backend_token->getToken()['backendToken'],
         ];
+        if ($this->markTime) $config['markTime'] = $this->markTime;
+        return $config;
     }
 }
