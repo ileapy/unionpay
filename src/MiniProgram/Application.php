@@ -25,6 +25,7 @@ use unionpay\Kernel\ServiceContainer;
  * @property \unionpay\MiniProgram\contract\Relieve              $relieve
  * @property \unionpay\MiniProgram\contract\SignStatus           $signStatus
  * @property \unionpay\MiniProgram\contract\UnFinishedOrder      $unFinishedOrder
+ * @property \unionpay\MiniProgram\config\Config                 $upsdk_config
  *
  * @package uniopay\MiniProgram
  */
@@ -37,7 +38,8 @@ class Application extends ServiceContainer
         access\ServiceProvider::class,
         user\ServiceProvider::class,
         des\ServiceProvider::class,
-        contract\ServiceProvider::class
+        contract\ServiceProvider::class,
+        config\ServiceProvider::class
     ];
 
     /**

@@ -58,16 +58,13 @@ class Str
     }
 
     /**
-     * @param $appId
-     * @param $nonceStr
-     * @param $secret
-     * @param $timestamp
+     * @param $params
      * @return bool|string
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 10:28
+     * @date 2021/8/19 11:42
      */
-    public static function signature($appId , $nonceStr, $secret, $timestamp)
+    public static function signature($params)
     {
-        return self::sha256(self::sortByASCII(compact('appId','nonceStr','secret','timestamp')));
+        return self::sha256(self::sortByASCII($params));
     }
 }

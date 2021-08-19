@@ -123,7 +123,7 @@ class BackendToken extends MiniProgramClient implements BackendTokenInterface
             'appId' => $this->config['appid'],
             'nonceStr' => $nonceStr,
             'timestamp' => $timestamp,
-            'signature' => Str::signature($this->config['appid'],$nonceStr,$this->config['secret'],$timestamp)
+            'signature' => Str::signature(['appId' => $this->config['appid'], 'nonceStr' => $nonceStr, 'secret' => $this->config['secret'], 'timestamp' => $timestamp])
         ];
     }
 }

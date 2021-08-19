@@ -34,6 +34,7 @@ $ composer require cfn/unionpay
 | MiniProgram<br/>小程序 | CardToken<br/>获取用户授权卡token | getCardToken<br/>通过用户授权卡 token `scope.token` ，获取用户授权指定卡 `token` 。 |
 | MiniProgram<br/>小程序 | UserStatus<br/>查询用户状态 | getUserStatus<br/>通过该接口可判断用户当前状态 |
 | MiniProgram<br/>小程序 | Apply<br/>申请签约 | apply<br/>无感支付签约接口，用户无感签约 scope:upapi_contract 授权且点击”同意授权”后，后台可通过此接口发起支付签约，签约完成后根据协议号走全渠道即可发起交易。 |
+| MiniProgram<br/>小程序 | UpsdkConfig<br/>小程序初始化配置 | getConfig<br/>获取初始化配置参数（可开启debug模式） |
 | MiniProgram<br/>小程序 | Crypto<br/>加解密 | encrypt<br/>3DES加密（加密信息） |
 | MiniProgram<br/>小程序 | Crypto<br/>加解密 | decrypt<br/>3DES解密（解密信息例如解密手机号） |
 | Payment<br/>手机支付控件 | Order<br/>消费接口 | pay<br/>消费是指境内外持卡人在境内外商户网站进行购物等消费时用银行卡结算的交易，经批准的消费额将即时 地反映到该持卡人的账户余额上。(TN号获取) |
