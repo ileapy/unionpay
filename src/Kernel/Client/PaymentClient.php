@@ -29,6 +29,11 @@ class PaymentClient
     /**
      * @var string
      */
+    protected $endpoint = "https://gateway.95516.com/";
+
+    /**
+     * @var string
+     */
     protected $requestMethod = 'POST';
 
     /**

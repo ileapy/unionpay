@@ -16,7 +16,6 @@ use unionpay\Kernel\Providers\HttpClientServiceProvider;
  * Class ServiceContainer
  *
  * @property \unionpay\Kernel\Config                          $config
- * @property \Symfony\Component\EventDispatcher\EventDispatcher $events
  *
  * @package unionpay\Kernel
  */
@@ -56,8 +55,6 @@ class ServiceContainer extends Container
         $this->registerProviders($this->getProviders());
 
         $this->aggregate();
-
-        $this->events->dispatch(new Events\ApplicationInitialized($this));
     }
 
     /**

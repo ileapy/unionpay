@@ -67,8 +67,6 @@ class AccessToken extends MiniProgramClient implements AccessTokenInterface
 
         $this->setToken($token[$this->tokenKey], $token['openId'], $token['scope'], $token['unionId'],$token['expiresIn'] ?: 7200);
 
-        $this->app->events->dispatch(new AccessTokenRefreshed($this));
-
         return $token;
     }
 

@@ -15,17 +15,10 @@ use unionpay\Kernel\ServiceContainer;
  * @property \unionpay\MiniProgram\access\AccessToken            $access_token
  * @property \unionpay\MiniProgram\access\BackendToken           $backend_token
  * @property \unionpay\MiniProgram\access\FrontToken             $front_token
- * @property \unionpay\MiniProgram\user\Mobile                   $mobile
- * @property \unionpay\MiniProgram\user\Card                     $card
- * @property \unionpay\MiniProgram\user\CardToken                $cardToken
- * @property \unionpay\MiniProgram\user\Auth                     $auth
- * @property \unionpay\MiniProgram\user\UserStatus               $user_status
+ * @property \unionpay\MiniProgram\user\Client                   $user
+ * @property \unionpay\MiniProgram\contract\Client               $contract
  * @property \unionpay\MiniProgram\crypto\Crypto                 $crypto
- * @property \unionpay\MiniProgram\contract\Apply                $apply
- * @property \unionpay\MiniProgram\contract\Relieve              $relieve
- * @property \unionpay\MiniProgram\contract\SignStatus           $signStatus
- * @property \unionpay\MiniProgram\contract\UnFinishedOrder      $unFinishedOrder
- * @property \unionpay\MiniProgram\config\Config                 $upsdk_config
+ * @property \unionpay\MiniProgram\base\Client                   $base
  *
  * @package uniopay\MiniProgram
  */
@@ -39,7 +32,7 @@ class Application extends ServiceContainer
         user\ServiceProvider::class,
         crypto\ServiceProvider::class,
         contract\ServiceProvider::class,
-        config\ServiceProvider::class
+        base\ServiceProvider::class
     ];
 
     /**

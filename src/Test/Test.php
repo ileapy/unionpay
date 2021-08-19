@@ -26,5 +26,6 @@ class Test
         ];
         $app = Factory::miniProgram($config);
         $frontToken = $app->front_token->getToken();
+        print_r($frontToken);
     }
 }

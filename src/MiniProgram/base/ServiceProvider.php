@@ -5,7 +5,7 @@
  * Copyright: php
  */
 
-namespace unionpay\MiniProgram\config;
+namespace unionpay\MiniProgram\base;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -24,8 +24,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['upsdk_config'] = function ($app) {
-            return new Config($app);
+        $app['base'] = function ($app) {
+            return new Client($app);
         };
     }
 }

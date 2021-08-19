@@ -61,8 +61,6 @@ class FrontToken extends MiniProgramClient implements FrontTokenInterface
 
         $this->setToken($token[$this->tokenKey], $token['expiresIn'] ?: 7200);
 
-        $this->app->events->dispatch(new FrontTokenRefreshed($this));
-
         return $token;
     }
 

@@ -57,8 +57,6 @@ class BackendToken extends MiniProgramClient implements BackendTokenInterface
 
         $this->setToken($token[$this->tokenKey], $token['expiresIn'] ?: 7200);
 
-        $this->app->events->dispatch(new BackendTokenRefreshed($this));
-
         return $token;
 
     }

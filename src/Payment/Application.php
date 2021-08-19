@@ -12,12 +12,8 @@ use unionpay\Kernel\ServiceContainer;
 /**
  * Class Application
  *
- * @property \unionpay\Payment\order\Order                    $order
+ * @property \unionpay\Payment\order\Client                    $order
  * @property \unionpay\Payment\notify\Notify                  $notify
- * @property \unionpay\Payment\order\Query                    $query
- * @property \unionpay\Payment\order\Refund                   $refund
- * @property \unionpay\Payment\order\Cancel                   $cancel
- * @property \unionpay\Payment\file\File                      $file
  * @property \unionpay\Payment\signature\Signature            $signature
  *
  * @package unionpay\Payment
@@ -28,9 +24,8 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
-        file\ServiceProvider::class,
-        notify\ServiceProvider::class,
         order\ServiceProvider::class,
+        notify\ServiceProvider::class,
         signature\ServiceProvider::class
     ];
 

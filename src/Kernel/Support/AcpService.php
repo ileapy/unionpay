@@ -55,7 +55,8 @@ class AcpService
         if($params == NULL || !is_array($params)) return "";
         $linkString = "";
         if ($sort) $params = self::argSort($params);
-        while (list($key, $value) = each($params))
+
+        foreach ($params as $key => $value)
         {
             if ($encode) $value = urlencode($value);
             $linkString .= $key . "=" . $value . "&";

@@ -34,6 +34,11 @@ class MiniProgramClient
     /**
      * @var string
      */
+    protected $endpoint = "https://open.95516.com/";
+
+    /**
+     * @var string
+     */
     protected $requestMethod = 'POST';
 
     /**
