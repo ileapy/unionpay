@@ -7,31 +7,16 @@
 
 namespace unionpay\MiniProgram\access;
 
+use unionpay\Kernel\Client\MiniProgramClient;
 use unionpay\Kernel\Contracts\AccessTokenInterface;
 use unionpay\Kernel\Events\AccessTokenRefreshed;
-use unionpay\Kernel\ServiceContainer;
-use unionpay\Kernel\Traits\HasHttpRequests;
-use unionpay\Kernel\Traits\InteractsWithCache;
 
 /**
  * Class AccessToken
  * @package unionpay\MiniProgram\access
  */
-class AccessToken implements AccessTokenInterface
+class AccessToken extends MiniProgramClient implements AccessTokenInterface
 {
-    use HasHttpRequests;
-    use InteractsWithCache;
-
-    /**
-     * @var ServiceContainer
-     */
-    protected $app;
-
-    /**
-     * @var string
-     */
-    protected $requestMethod = 'POST';
-
     /**
      * @var string
      */
@@ -53,25 +38,9 @@ class AccessToken implements AccessTokenInterface
     protected $cachePrefix = 'unionpay.miniprogram.access.access_token.';
 
     /**
-     * @var array
-     */
-    protected $config = [];
-
-    /**
      * @var string
      */
     protected $code = "";
-
-    /**
-     * AccessToken constructor.
-     *
-     * @param ServiceContainer $app
-     */
-    public function __construct(ServiceContainer $app)
-    {
-        $this->app = $app;
-        $this->config = $app['config']->toArray();
-    }
 
     /**
      * @param string $code
@@ -96,7 +65,7 @@ class AccessToken implements AccessTokenInterface
 
         $token = $this->requestToken($this->getCredentials());
 
-        $this->setToken($token[$this->tokenKey], $token['openId'], $token['expiresIn'] ?: 7200);
+        $this->setToken($token[$this->tokenKey], $token['openId'], $token['scope'], $token['unionId'],$token['expiresIn'] ?: 7200);
 
         $this->app->events->dispatch(new AccessTokenRefreshed($this));
 
@@ -117,14 +86,17 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @param array $token
+     * @param $token
+     * @param $openId
+     * @param $scope
+     * @param $unionId
      * @param int $lifetime
      * @return $this
-     * @throws \Exception|\Psr\Cache\InvalidArgumentException
      * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/16 10:35
+     * @date 2021/8/19 10:17
+     * @throws \Psr\Cache\InvalidArgumentException
      */
-    protected function setToken($token, $openId, $lifetime = 7200)
+    protected function setToken($token, $openId, $scope, $unionId, $lifetime = 7200)
     {
         $cacheKey = $this->getCacheKey();
         $cache = $this->getCache();
@@ -134,6 +106,9 @@ class AccessToken implements AccessTokenInterface
 
         $cacheItem->set(array(
             $this->tokenKey => $token,
+            'openId' => $openId,
+            'scope' => $scope,
+            'unionId' => $unionId,
             'expiresIn' => $lifetime
         ));
 

@@ -7,39 +7,24 @@
 
 namespace unionpay\MiniProgram\user;
 
-use unionpay\Kernel\ServiceContainer;
-use unionpay\Kernel\Traits\HasHttpRequests;
-use unionpay\Kernel\Traits\InteractsWithCache;
+use unionpay\Kernel\Client\MiniProgramClient;
 
 /**
  * Class CardToken
  *
  * @package unionpay\MiniProgram\user
  */
-class CardToken
+class CardToken extends MiniProgramClient
 {
-    use HasHttpRequests;
-    use InteractsWithCache;
-
-    /**
-     * @var ServiceContainer
-     */
-    protected $app;
-
-    /**
-     * @var string
-     */
-    protected $requestMethod = 'POST';
-
     /**
      * @var string
      */
     protected $endpoint = "https://open.95516.com/open/access/1.0/user.checkedCard";
 
     /**
-     * @var array
+     * @var
      */
-    protected $config = [];
+    protected $code = "";
 
     /**
      * @var string
@@ -47,18 +32,8 @@ class CardToken
     protected $openId = "";
 
     /**
-     * AccessToken constructor.
-     *
-     * @param ServiceContainer $app
-     */
-    public function __construct(ServiceContainer $app)
-    {
-        $this->app = $app;
-        $this->config = $app['config']->toArray();
-    }
-
-    /**
-     * @param string $openId openid
+     * @param string $code 用户授权或静默授权获取的code和openid必传其一
+     * @param string $openId 用户唯一标识如果未传递code请确保已调用accessToken后再调用此接口
      * @param bool $decrypt 是否解密返回
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -66,8 +41,9 @@ class CardToken
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 19:23
      */
-    public function getCardToken($openId, $decrypt = true)
+    public function getCardToken($code = "", $openId = "", $decrypt = true)
     {
+        $this->code = $code;
         $this->openId = $openId;
 
         $data = $this->requestToken($this->getCredentials());
@@ -107,13 +83,15 @@ class CardToken
      */
     protected function getCredentials()
     {
-        $code = $this->getCode($this->openId)['code'];
+        $code = $this->code ?: $this->getCode($this->openId)['code'];
         if (!$code) throw new \Exception("code已失效，请重新授权获取");
+        // 获取accessToken和openId
+        $access = $this->app->access_token->getToken($code);
 
         return [
             'appId' => $this->config['appid'],
-            'accessToken' => $this->app->access_token->getToken($code)['accessToken'],
-            'openId' => $this->openId,
+            'accessToken' => $access['accessToken'],
+            'openId' => $this->openId ?: $access['openId'],
             'backendToken' => $this->app->backend_token->getToken()['backendToken']
         ];
     }

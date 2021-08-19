@@ -27,5 +27,17 @@ class ServiceProvider implements ServiceProviderInterface
         $app['order'] = function ($app) {
             return new Order($app);
         };
+
+        $app['cancel'] = function ($app) {
+            return new Cancel($app);
+        };
+
+        $app['refund'] = function ($app) {
+            return new Refund($app);
+        };
+
+        $app['query'] = function ($app) {
+            return new Query($app);
+        };
     }
 }

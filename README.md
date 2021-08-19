@@ -33,11 +33,15 @@ $ composer require cfn/unionpay
 | MiniProgram<br/>小程序 | Card<br/>获取用户绑定的银行卡列表（仅限银行小程序使用） | getCardList<br/>通过用户银行卡授权 `scope.bank` 完成后，银行小程序可获取用户绑定的该行银行卡列表信息。 |
 | MiniProgram<br/>小程序 | CardToken<br/>获取用户授权卡token | getCardToken<br/>通过用户授权卡 token `scope.token` ，获取用户授权指定卡 `token` 。 |
 | MiniProgram<br/>小程序 | UserStatus<br/>查询用户状态 | getUserStatus<br/>通过该接口可判断用户当前状态 |
+| MiniProgram<br/>小程序 | Apply<br/>申请签约 | apply<br/>无感支付签约接口，用户无感签约 scope:upapi_contract 授权且点击”同意授权”后，后台可通过此接口发起支付签约，签约完成后根据协议号走全渠道即可发起交易。 |
 | MiniProgram<br/>小程序 | Crypto<br/>加解密 | encrypt<br/>3DES加密（加密信息） |
 | MiniProgram<br/>小程序 | Crypto<br/>加解密 | decrypt<br/>3DES解密（解密信息例如解密手机号） |
 | Payment<br/>手机支付控件 | Order<br/>消费接口 | pay<br/>消费是指境内外持卡人在境内外商户网站进行购物等消费时用银行卡结算的交易，经批准的消费额将即时 地反映到该持卡人的账户余额上。(TN号获取) |
 | Payment<br/>手机支付控件 | Cancel<br/>消费撤销接口 | cancel<br/>是指因人为原因而撤销已完成的消费，商户可以通过SDK向银联全渠道支付平台发起消费撤销交易，消费撤销必须是撤销CUPS当日当批的消费。发卡行批准的消费撤销金额将即时地反映到该持卡人的账户上。完成交易的过程不需要同持卡人交互，属于后台交易。 |
 | Payment<br/>手机支付控件 | Refund<br/>退货接口 | refund<br/>在消费交易发生一段时间之内，由于持卡人或者商户的原因需要退款时，商户可以通过退货接口将支付款退还给持卡人，银联将在收到退货请求并且验证成功之后，按照退货规则让发卡行按照原路退到持卡人支付卡上。 |
+| Payment<br/>手机支付控件 | Query<br/>交易状态查询接口 | query<br/>该接口提供所有银联订单的查询，包括支付、退货、消费撤销交易。商户可以通过查询订单接口主动查询订单状态，完成下一步的业务逻辑。。 |
+| Payment<br/>手机支付控件 | Signature<br/>加签验签 | validate<br/>对返回数据进行验签 |
+| Payment<br/>手机支付控件 | Signature<br/>加签验签 | sign<br/>对发生数据进行加签 |
 
 还有更多在积极适配中......
 
@@ -120,8 +124,17 @@ print_r($frontToken);
 ### 获取手机号加密字符串：
 
 ```php
-// 第一个参数就是获取access_token时返回的openid，第二个参数代表是否解密
-$mobile = $app->mobile->getMobile('YbknmZra+VRPee76j+IVFeQHQ0vQ3pAZHVaCw7ovJQk/jTof+GMd6DSDRQAf/gaf', false);
+// 参数解析
+//* @param string $code 用户授权或静默授权获取的code和openid必传其一 不是必填项
+//* @param string $openId 用户唯一标识如果未传递code请确保已调用accessToken后再调用此接口 不是必填项
+//* @param bool $decrypt 是否解密返回 不是必填项
+
+// 第一种方式 通过code直接获取
+$mobile = $app->mobile->getMobile("nSuRv/iJQm+6wYE6sqRx8w==");
+
+// 第二种方式 通过openid获取，调用这种方式之前请确保已先调用accessToken方法
+$mobile = $app->mobile->getMobile(null,'YbknmZra+VRPee76j+IVFeQHQ0vQ3pAZHVaCw7ovJQk/jTof+GMd6DSDRQAf/gaf', false);
+
 
 print_r($mobile);
 

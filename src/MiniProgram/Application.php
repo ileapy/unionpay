@@ -21,6 +21,10 @@ use unionpay\Kernel\ServiceContainer;
  * @property \unionpay\MiniProgram\user\Auth                     $auth
  * @property \unionpay\MiniProgram\user\UserStatus               $user_status
  * @property \unionpay\MiniProgram\des\Crypto                    $crypto
+ * @property \unionpay\MiniProgram\contract\Apply                $apply
+ * @property \unionpay\MiniProgram\contract\Relieve              $relieve
+ * @property \unionpay\MiniProgram\contract\SignStatus           $signStatus
+ * @property \unionpay\MiniProgram\contract\UnFinishedOrder      $unFinishedOrder
  *
  * @package uniopay\MiniProgram
  */
@@ -32,7 +36,8 @@ class Application extends ServiceContainer
     protected $providers = [
         access\ServiceProvider::class,
         user\ServiceProvider::class,
-        des\ServiceProvider::class
+        des\ServiceProvider::class,
+        contract\ServiceProvider::class
     ];
 
     /**

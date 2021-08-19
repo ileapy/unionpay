@@ -7,28 +7,13 @@
 
 namespace unionpay\MiniProgram\access;
 
+use unionpay\Kernel\Client\MiniProgramClient;
 use unionpay\Kernel\Contracts\BackendTokenInterface;
 use unionpay\Kernel\Events\BackendTokenRefreshed;
-use unionpay\Kernel\ServiceContainer;
 use unionpay\Kernel\Support\Str;
-use unionpay\Kernel\Traits\HasHttpRequests;
-use unionpay\Kernel\Traits\InteractsWithCache;
 
-class BackendToken implements BackendTokenInterface
+class BackendToken extends MiniProgramClient implements BackendTokenInterface
 {
-    use HasHttpRequests;
-    use InteractsWithCache;
-
-    /**
-     * @var ServiceContainer
-     */
-    protected $app;
-
-    /**
-     * @var string
-     */
-    protected $requestMethod = 'POST';
-
     /**
      * @var string
      */
@@ -48,22 +33,6 @@ class BackendToken implements BackendTokenInterface
      * @var string
      */
     protected $cachePrefix = 'unionpay.miniprogram.access.backend_token.';
-
-    /**
-     * @var array
-     */
-    protected $config = [];
-
-    /**
-     * BackendToken constructor.
-     *
-     * @param ServiceContainer $app
-     */
-    public function __construct(ServiceContainer $app)
-    {
-        $this->app = $app;
-        $this->config = $app['config']->toArray();
-    }
 
     /**
      * @param false $refresh

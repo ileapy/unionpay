@@ -5,7 +5,7 @@
  * Copyright: php
  */
 
-namespace unionpay\Payment\refund;
+namespace unionpay\Payment\signature;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -24,8 +24,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['refund'] = function ($app) {
-            return new Refund($app);
+        $app['signature'] = function ($app) {
+            return new Signature($app);
         };
     }
 }

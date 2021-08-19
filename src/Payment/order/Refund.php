@@ -5,60 +5,28 @@
  * Copyright: php
  */
 
-namespace unionpay\Payment\refund;
+namespace unionpay\Payment\order;
 
-use unionpay\Kernel\ServiceContainer;
+use unionpay\Kernel\Client\MiniProgramClient;
 use unionpay\Kernel\Support\AcpService;
-use unionpay\Kernel\Traits\HasHttpRequests;
-use unionpay\Kernel\Traits\InteractsWithCache;
 
 /**
  * Class Refund
  *
  * @package unionpay\Payment\refund
  */
-class Refund
+class Refund extends MiniProgramClient
 {
-    use HasHttpRequests;
-    use InteractsWithCache;
-
-    /**
-     * @var ServiceContainer
-     */
-    protected $app;
-
-    /**
-     * @var string
-     */
-    protected $requestMethod = 'POST';
-
     /**
      * @var string
      */
     protected $endpoint = "https://gateway.95516.com/gateway/api/backTransReq.do";
 
     /**
-     * 配置
-     * @var array
-     */
-    protected $config = [];
-
-    /**
      * 支付
      * @var array
      */
     private $params = [];
-
-    /**
-     * AccessToken constructor.
-     *
-     * @param ServiceContainer $app
-     */
-    public function __construct(ServiceContainer $app)
-    {
-        $this->app = $app;
-        $this->config = $app['config']->toArray();
-    }
 
     /**
      * @param $params
@@ -71,15 +39,7 @@ class Refund
     {
         $this->params = $params;
 
-        $data = $this->requestToken($this->signCredentialsData());
-
-        if (empty($data)) throw new \Exception("未获取到数据");
-
-        $validate = AcpService::validate($data,'', $this->config['cert']['middleCertPath'], $this->config['cert']['rootCertPath'], $this->config['debug']);
-
-        if (!$validate && isset($data['respMsg'])) throw new \Exception($data['respMsg']);
-
-        return $data;
+        return $this->requestToken($this->signCredentialsData());
     }
 
     /**
@@ -95,7 +55,7 @@ class Refund
         if (!isset($data['txnAmt']) || !isset($data['orderId']) || !isset($data['origQryId']))
             throw new \Exception("商户订单号(重新生成，相当于退款单号)[orderId]和订单金额（退货总金额需要小于等于原消费）[txnAmt]和原交易查询流水号（支付成功后返回的）[origQryId]必传");
 
-        AcpService::sign($data, $this->config['signCertPath'], $this->config['signCertPwd']);
+        $this->app->signature->sign($data, $this->config['signCertPath'], $this->config['signCertPwd']);
 
         return $data;
     }

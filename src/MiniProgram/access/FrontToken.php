@@ -7,32 +7,17 @@
 
 namespace unionpay\MiniProgram\access;
 
+use unionpay\Kernel\Client\MiniProgramClient;
 use unionpay\Kernel\Contracts\FrontTokenInterface;
 use unionpay\Kernel\Events\FrontTokenRefreshed;
-use unionpay\Kernel\ServiceContainer;
 use unionpay\Kernel\Support\Str;
-use unionpay\Kernel\Traits\HasHttpRequests;
-use unionpay\Kernel\Traits\InteractsWithCache;
 
 /**
  * Class FrontToken
  * @package unionpay\MiniProgram\access
  */
-class FrontToken implements FrontTokenInterface
+class FrontToken extends MiniProgramClient implements FrontTokenInterface
 {
-    use HasHttpRequests;
-    use InteractsWithCache;
-
-    /**
-     * @var ServiceContainer
-     */
-    protected $app;
-
-    /**
-     * @var string
-     */
-    protected $requestMethod = 'POST';
-
     /**
      * @var string
      */
@@ -52,27 +37,6 @@ class FrontToken implements FrontTokenInterface
      * @var string
      */
     protected $cachePrefix = 'unionpay.miniprogram.access.front_token.';
-
-    /**
-     * @var array
-     */
-    protected $config = [];
-
-    /**
-     * @var string
-     */
-    protected $code = "";
-
-    /**
-     * AccessToken constructor.
-     *
-     * @param ServiceContainer $app
-     */
-    public function __construct(ServiceContainer $app)
-    {
-        $this->app = $app;
-        $this->config = $app['config']->toArray();
-    }
 
     /**
      * @param false $refresh

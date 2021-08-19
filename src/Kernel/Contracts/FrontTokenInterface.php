@@ -7,8 +7,6 @@
 
 namespace unionpay\Kernel\Contracts;
 
-use Psr\Http\Message\RequestInterface;
-
 /**
  * Interface FrontTokenInterface
  *

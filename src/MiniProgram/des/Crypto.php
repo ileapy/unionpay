@@ -7,37 +7,16 @@
 
 namespace unionpay\MiniProgram\des;
 
-use unionpay\Kernel\ServiceContainer;
+use unionpay\Kernel\Client\MiniProgramClient;
 use unionpay\Kernel\Support\TripleEncrypt;
 
 /**
- * Class TripleEncrypt
+ * Class Crypto
  *
- * @package unionpay\Kernel\Support
+ * @package unionpay\MiniProgram\des
  */
-class Crypto
+class Crypto extends MiniProgramClient
 {
-    /**
-     * @var ServiceContainer
-     */
-    protected $app;
-
-    /**
-     * @var array
-     */
-    protected $config = [];
-
-    /**
-     * AccessToken constructor.
-     *
-     * @param ServiceContainer $app
-     */
-    public function __construct(ServiceContainer $app)
-    {
-        $this->app = $app;
-        $this->config = $app['config']->toArray();
-    }
-
     /**
      * 解密
      * @param $data

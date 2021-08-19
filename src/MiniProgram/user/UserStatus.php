@@ -7,39 +7,18 @@
 
 namespace unionpay\MiniProgram\user;
 
-use unionpay\Kernel\ServiceContainer;
-use unionpay\Kernel\Traits\HasHttpRequests;
-use unionpay\Kernel\Traits\InteractsWithCache;
-
+use unionpay\Kernel\Client\MiniProgramClient;
 /**
  * Class UserStatus
  *
  * @package unionpay\MiniProgram\user
  */
-class UserStatus
+class UserStatus extends MiniProgramClient
 {
-    use HasHttpRequests;
-    use InteractsWithCache;
-
-    /**
-     * @var ServiceContainer
-     */
-    protected $app;
-
-    /**
-     * @var string
-     */
-    protected $requestMethod = 'POST';
-
     /**
      * @var string
      */
     protected $endpoint = "https://open.95516.com/open/access/1.0/user.status";
-
-    /**
-     * @var array
-     */
-    protected $config = [];
 
     /**
      * @var string
@@ -50,17 +29,6 @@ class UserStatus
      * @var mixed|string
      */
     private $markTime = "";
-
-    /**
-     * AccessToken constructor.
-     *
-     * @param ServiceContainer $app
-     */
-    public function __construct(ServiceContainer $app)
-    {
-        $this->app = $app;
-        $this->config = $app['config']->toArray();
-    }
 
     /**
      * @param string $openId 用户唯一标识，通过获取授权访问令牌获取
@@ -99,6 +67,7 @@ class UserStatus
             'openId' => $this->openId,
             'backendToken' => $this->app->backend_token->getToken()['backendToken'],
         ];
+
         if ($this->markTime) $config['markTime'] = $this->markTime;
         return $config;
     }

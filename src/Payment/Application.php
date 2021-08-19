@@ -14,10 +14,11 @@ use unionpay\Kernel\ServiceContainer;
  *
  * @property \unionpay\Payment\order\Order                    $order
  * @property \unionpay\Payment\notify\Notify                  $notify
- * @property \unionpay\Payment\query\Query                    $query
- * @property \unionpay\Payment\refund\Refund                  $refund
- * @property \unionpay\Payment\cancel\Cancel                  $cancel
+ * @property \unionpay\Payment\order\Query                    $query
+ * @property \unionpay\Payment\order\Refund                   $refund
+ * @property \unionpay\Payment\order\Cancel                   $cancel
  * @property \unionpay\Payment\file\File                      $file
+ * @property \unionpay\Payment\signature\Signature            $signature
  *
  * @package unionpay\Payment
  */
@@ -27,12 +28,10 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
-        cancel\ServiceProvider::class,
         file\ServiceProvider::class,
         notify\ServiceProvider::class,
         order\ServiceProvider::class,
-        query\ServiceProvider::class,
-        refund\ServiceProvider::class
+        signature\ServiceProvider::class
     ];
 
     /**

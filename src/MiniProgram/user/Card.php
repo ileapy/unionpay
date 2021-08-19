@@ -7,39 +7,24 @@
 
 namespace unionpay\MiniProgram\user;
 
-use unionpay\Kernel\ServiceContainer;
-use unionpay\Kernel\Traits\HasHttpRequests;
-use unionpay\Kernel\Traits\InteractsWithCache;
+use unionpay\Kernel\Client\MiniProgramClient;
 
 /**
  * Class Card
  *
  * @package unionpay\MiniProgram\user
  */
-class Card
+class Card extends MiniProgramClient
 {
-    use HasHttpRequests;
-    use InteractsWithCache;
-
-    /**
-     * @var ServiceContainer
-     */
-    protected $app;
-
-    /**
-     * @var string
-     */
-    protected $requestMethod = 'POST';
-
     /**
      * @var string
      */
     protected $endpoint = "https://open.95516.com/open/access/1.0/oauth.getCardList";
 
     /**
-     * @var array
+     * @var string
      */
-    protected $config = [];
+    protected $code = "";
 
     /**
      * @var string
@@ -62,18 +47,8 @@ class Card
     private $needPay;
 
     /**
-     * AccessToken constructor.
-     *
-     * @param ServiceContainer $app
-     */
-    public function __construct(ServiceContainer $app)
-    {
-        $this->app = $app;
-        $this->config = $app['config']->toArray();
-    }
-
-    /**
-     * @param string $openId openid
+     * @param string $code 用户授权或静默授权获取的code和openid必传其一
+     * @param string $openId 用户唯一标识如果未传递code请确保已调用accessToken后再调用此接口
      * @param string $cardTp 需要获取的卡列表类型：（ 00 ：全部， 01 ：借记卡， 02 ：贷记卡， 03 ：准贷记卡， 04 ：借贷合一卡）
      * @param string $needSameName 是否要求卡同名：（ 0 :不需要，同名卡和非同名卡都返回， 1 :需要，只返回同名卡）
      * @param string $needPay 是否要求开通支付的卡（ 0 ：不需要，支付卡和非支付卡都返回， 1 ：需要，只返回开通支付支付卡）
@@ -84,8 +59,9 @@ class Card
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 19:23
      */
-    public function getCardList($openId, $cardTp = "00", $needSameName = "0", $needPay = "0", $decrypt = true)
+    public function getCardList($code = "", $openId = "", $cardTp = "00", $needSameName = "0", $needPay = "0", $decrypt = true)
     {
+        $this->code = $code;
         $this->openId = $openId;
         $this->cardTp = $cardTp;
         $this->needSameName = $needSameName;
@@ -127,13 +103,15 @@ class Card
      */
     protected function getCredentials()
     {
-        $code = $this->getCode($this->openId)['code'];
+        $code = $this->code ?: $this->getCode($this->openId)['code'];
         if (!$code) throw new \Exception("code已失效，请重新授权获取");
+        // 获取accessToken和openId
+        $access = $this->app->access_token->getToken($code);
 
         return [
             'appId' => $this->config['appid'],
-            'accessToken' => $this->app->access_token->getToken($code)['accessToken'],
-            'openId' => $this->openId,
+            'accessToken' => $access['accessToken'],
+            'openId' => $this->openId ?: $access['openId'],
             'backendToken' => $this->app->backend_token->getToken()['backendToken'],
             'cardTp' => $this->cardTp,
             'needSameName' => $this->needSameName,
