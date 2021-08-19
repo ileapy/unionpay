@@ -5,7 +5,7 @@
  * Copyright: php
  */
 
-namespace unionpay\MiniProgram\des;
+namespace unionpay\MiniProgram\crypto;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

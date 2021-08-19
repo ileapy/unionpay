@@ -19,7 +19,7 @@ class Apply extends MiniProgramClient
     /**
      * @var string
      */
-    protected $endpoint = "https://open.95516.com/open/access/1.0/user.auth";
+    protected $endpoint = "https://open.95516.com/open/access/1.0/contract.apply";
 
     /**
      * @var string

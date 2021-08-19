@@ -10,21 +10,18 @@ namespace unionpay\Kernel\Support;
 class Str
 {
     /**
-     * 拼接待签名字符串 按照ASCII从小到大 得到 string
-     * @param array $data
+     * 拼接待签名字符串 按照ASCII从小到大 &分割得到string
+     * @param array $map
      * @return string
      */
-    public static function sortByASCII(array $data)
+    public static function sortByASCII(array $map)
     {
-        $strs = [];
-        // 取出数组的下标
-        $keys = array_keys($data);
-        // 对下标进行排序
-        asort($keys);
-        // 对二维数组按照下标的ASCII从小到大拼接成一维数组
-        foreach ($keys as $v) $strs[] = $v."=".$data[$v];
-        // 把一维数组用&转换成字符串返回
-        return implode("&",$strs);
+        ksort($map);
+        $data = [];
+        foreach ($map as $key => $val) {
+            $data[] = $key . '=' . $val;
+        }
+        return implode('&', $data);
     }
 
     /**
