@@ -184,7 +184,12 @@ $app = Factory::payment($options);
 // txnAmt支付金额（分），orderId商户订单号
 $data = $app->order->pay(['txnAmt' => 1, 'orderId' => date('YmdHis').rand(1000,9999)]);
 
-// 返回的结果已验签，不必再验签
+// 对返回的结果进行验签
+if ($app->signature->validate($data))
+{
+    // todo 验签成功
+}
+
 print_r($data);
 
 // 输出
