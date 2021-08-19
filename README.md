@@ -35,8 +35,8 @@ $ composer require cfn/unionpay
 | MiniProgram<br/>小程序 | UserStatus<br/>查询用户状态 | getUserStatus<br/>通过该接口可判断用户当前状态 |
 | MiniProgram<br/>小程序 | Apply<br/>申请签约 | apply<br/>无感支付签约接口，用户无感签约 scope:upapi_contract 授权且点击”同意授权”后，后台可通过此接口发起支付签约，签约完成后根据协议号走全渠道即可发起交易。 |
 | MiniProgram<br/>小程序 | Relieve<br/>申请解约 | relieve<br/>无感支付解约，使用接入方签约时传入的”签约协议号”，通过此接口可发起无感支付解约。|
-| MiniProgram<br/>小程序 | SignStatus<br/>签约关系查询 | apply<br/>查询用户与接入方的签约关系状态，5分钟缓存机制，为保证查询结果准确性，建议间隔5分钟以上再进行状态查询。|
-| MiniProgram<br/>小程序 | UnFinishedOrder<br/>未完成订单查询 | apply<br/>查询已签约用户在云闪付侧是否存在业务未完成的订单。|
+| MiniProgram<br/>小程序 | SignStatus<br/>签约关系查询 | status<br/>查询用户与接入方的签约关系状态，5分钟缓存机制，为保证查询结果准确性，建议间隔5分钟以上再进行状态查询。|
+| MiniProgram<br/>小程序 | UnFinishedOrder<br/>未完成订单查询 | query<br/>查询已签约用户在云闪付侧是否存在业务未完成的订单。|
 | MiniProgram<br/>小程序 | UpsdkConfig<br/>小程序初始化配置 | getConfig<br/>获取初始化配置参数（可开启debug模式） |
 | MiniProgram<br/>小程序 | Crypto<br/>加解密 | encrypt<br/>3DES加密（加密信息） |
 | MiniProgram<br/>小程序 | Crypto<br/>加解密 | decrypt<br/>3DES解密（解密信息例如解密手机号） |
