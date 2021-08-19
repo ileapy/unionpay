@@ -135,10 +135,10 @@ print_r($frontToken);
 //* @param bool $decrypt 是否解密返回 不是必填项
 
 // 第一种方式 通过code直接获取
-$mobile = $app->mobile->getMobile("nSuRv/iJQm+6wYE6sqRx8w==");
+$mobile = $app->user->mobile("nSuRv/iJQm+6wYE6sqRx8w==");
 
 // 第二种方式 通过openid获取，调用这种方式之前请确保已先调用accessToken方法
-$mobile = $app->mobile->getMobile(null,'YbknmZra+VRPee76j+IVFeQHQ0vQ3pAZHVaCw7ovJQk/jTof+GMd6DSDRQAf/gaf', false);
+$mobile = $app->user->mobile(null,'YbknmZra+VRPee76j+IVFeQHQ0vQ3pAZHVaCw7ovJQk/jTof+GMd6DSDRQAf/gaf', false);
 
 
 print_r($mobile);
