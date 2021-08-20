@@ -13,8 +13,8 @@ use unionpay\Kernel\ServiceContainer;
  * Class Application
  *
  * @property \unionpay\Payment\order\Client                    $order
- * @property \unionpay\Payment\notify\Notify                  $notify
- * @property \unionpay\Payment\signature\Signature            $signature
+ * @property \unionpay\Payment\notify\Client                   $notify
+ * @property \unionpay\Payment\signature\Signature             $signature
  *
  * @package unionpay\Payment
  */
@@ -36,7 +36,8 @@ class Application extends ServiceContainer
         'http_post_data_type' => 'form_params',
         'cert' => [
             'middleCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'middle.cer',
-            'rootCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'root.cer'
+            'rootCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'root.cer',
+            'ifValidateCNName' => true
         ],
         'http' => [
             'headers' => [

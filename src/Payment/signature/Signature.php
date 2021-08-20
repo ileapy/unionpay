@@ -26,7 +26,7 @@ class Signature extends PaymentClient
      */
     public function validate($params)
     {
-        return (bool)AcpService::validate($params,'', $this->config['cert']['middleCertPath'], $this->config['cert']['rootCertPath'], $this->config['debug']);
+        return (bool)AcpService::validate($params,'', $this->config['cert']['middleCertPath'], $this->config['cert']['rootCertPath'], $this->config['cert']['ifValidateCNName']);
     }
 
     /**

@@ -45,6 +45,7 @@ $ composer require cfn/unionpay
 | Payment<br/>手机支付控件 | Order<br/>消费撤销接口 | cancel<br/>是指因人为原因而撤销已完成的消费，商户可以通过SDK向银联全渠道支付平台发起消费撤销交易，消费撤销必须是撤销CUPS当日当批的消费。发卡行批准的消费撤销金额将即时地反映到该持卡人的账户上。完成交易的过程不需要同持卡人交互，属于后台交易。 |
 | Payment<br/>手机支付控件 | Order<br/>退货接口 | refund<br/>在消费交易发生一段时间之内，由于持卡人或者商户的原因需要退款时，商户可以通过退货接口将支付款退还给持卡人，银联将在收到退货请求并且验证成功之后，按照退货规则让发卡行按照原路退到持卡人支付卡上。 |
 | Payment<br/>手机支付控件 | Order<br/>交易状态查询接口 | query<br/>该接口提供所有银联订单的查询，包括支付、退货、消费撤销交易。商户可以通过查询订单接口主动查询订单状态，完成下一步的业务逻辑。。 |
+| Payment<br/>手机支付控件 | Notify<br/>回调统一处理 | unit<br/>对消费接口，消费撤销接口，退货接口，预授权接口，预授权撤销接口，预授权完成接口，预授权完成撤销接口的回调统一处理 |
 | Payment<br/>手机支付控件 | Signature<br/>加签验签 | validate<br/>对返回数据进行验签 |
 | Payment<br/>手机支付控件 | Signature<br/>加签验签 | sign<br/>对发生数据进行加签 |
 
@@ -240,6 +241,25 @@ print_r($data);
 // -----END CERTIFICATE-----
 //     [signature] => fxLxEKV4GGLpvUnYsaCILUh6YyYI/jgwdeh94dGrT75nwGCOnspmB06cuzNj7G47mIR/TJZ0EEafJjaL2gkanVQMk4RfSMWGc+xcj8IYhdprbqZHyy7tbMCIMCDRlz1QKK2+UXXHs+dYDWHwqp3t4ZXpZ/GkmFNCRuExtzCcdotgzLGAc6PhGCKmL0nKC+ekGB48uLsg3lsmSTO08RUk9G32cOxqcFoVjhDJRjeqnccBo16GEjOT8TiyJOqFiG8Jk+E3ZZcYo1JM1FVRzR7TXuVcxEJmdePM3Akmtxa9MsuHMM0YP8YqPwN9Z9PH72fAplsAFPCAwhQrCeNjX6+f9g==
 //)
+```
+
+### 回调统一处理：
+
+```
+// 默认自动验签，第二个参数设置为false就不自动验签，可自行验签, 注意验签失败会抛异常
+$response = $app->notify->unit(function ($message) use ($app){
+    // 自行验签
+    $res = $app->signature->validate($message);
+    if ($res) {
+        // 验签成功
+        echo "验签成功";
+    } else {
+        // 验签失败
+        echo "验签失败";
+    }
+}, false);
+
+$response->send();
 ```
 
 > 更多示例请参考 [https://www.kuzuozhou.cn/](https://www.kuzuozhou.cn/)。

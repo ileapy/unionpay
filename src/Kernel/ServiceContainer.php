@@ -11,6 +11,7 @@ use Pimple\Container;
 use unionpay\Kernel\Providers\ConfigServiceProvider;
 use unionpay\Kernel\Providers\EventDispatcherServiceProvider;
 use unionpay\Kernel\Providers\HttpClientServiceProvider;
+use unionpay\Kernel\Providers\RequestServiceProvider;
 
 /**
  * Class ServiceContainer
@@ -68,6 +69,7 @@ class ServiceContainer extends Container
             ConfigServiceProvider::class,
             HttpClientServiceProvider::class,
             EventDispatcherServiceProvider::class,
+            RequestServiceProvider::class
         ], $this->providers);
     }
 
