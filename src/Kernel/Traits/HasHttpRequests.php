@@ -217,12 +217,12 @@ trait HasHttpRequests
 
         if (!$result && is_string($contents)) $result = AcpService::parseQString($contents);
 
-        if (empty($result) || (isset($result['resp']) && $result['resp'] != '00'))
+        if (empty($result) || (isset($result['resp']) && $result['resp'] != '00') || (!isset($result['resp']) && !isset($result['respCode'])))
         {
             throw new \Exception('Request fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
         }
 
-        return isset($result['resp']) ? $result['params'] : $result;
+        return isset($result['resp']) && isset($result['params']) ? $result['params'] : $result;
     }
 
     /**

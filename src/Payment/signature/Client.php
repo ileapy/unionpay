@@ -15,7 +15,7 @@ use unionpay\Kernel\Support\AcpService;
  *
  * @package unionpay\Payment\verify
  */
-class Signature extends PaymentClient
+class Client extends PaymentClient
 {
     /**
      * @param array $params 验签参数

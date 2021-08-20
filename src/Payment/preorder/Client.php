@@ -1,23 +1,23 @@
 <?php
 /**
  * User: cfn <cfn@leapy.cn>
- * Datetime: 2021/8/19 21:35
+ * Datetime: 2021/8/20 19:15
  * Copyright: php
  */
 
-namespace unionpay\Payment\order;
+namespace unionpay\Payment\preorder;
 
 use unionpay\Kernel\Client\PaymentClient;
 
 /**
  * Class Client
  *
- * @package unionpay\Payment\order
+ * @package unionpay\Payment\preorder
  */
 class Client extends PaymentClient
 {
     /**
-     * 支付
+     * 预授权接口
      * @param $params
      * @return mixed
      * @throws \Exception|\GuzzleHttp\Exception\GuzzleException
@@ -36,7 +36,7 @@ class Client extends PaymentClient
             // 订单发送时间，格式为YYYYMMDDhhmmss，取北京时间
             'txnTime'        =>        date('YmdHis'),
             // 交易类型
-            'txnType'        =>        '01',
+            'txnType'        =>        '02',
             // 交易子类
             'txnSubType'     =>        '01',
             // 商户代码，请改自己的商户号
@@ -58,7 +58,7 @@ class Client extends PaymentClient
     }
 
     /**
-     * 订单撤销
+     * 预授权撤销
      * @param $params
      * @return mixed
      * @author cfn <cfn@leapy.cn>
@@ -75,7 +75,7 @@ class Client extends PaymentClient
             // 订单发送时间，格式为YYYYMMDDhhmmss，取北京时间
             'txnTime'        =>        date('YmdHis'),
             // 交易类型
-            'txnType'        =>        '31',
+            'txnType'        =>        '32',
             // 交易子类
             'txnSubType'     =>        '00',
             // 商户代码，请改自己的商户号
@@ -96,7 +96,45 @@ class Client extends PaymentClient
     }
 
     /**
-     * 订单退货
+     * 预授权完成撤销
+     * @param $params
+     * @return mixed
+     * @author cfn <cfn@leapy.cn>
+     * @date 2021/8/19 22:15
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function finish($params)
+    {
+        $this->endpoint = "https://gateway.95516.com/gateway/api/backTransReq.do";
+
+        $base = [
+            // 产品类型
+            'bizType'          =>      '000201',
+            // 订单发送时间，格式为YYYYMMDDhhmmss，取北京时间
+            'txnTime'        =>        date('YmdHis'),
+            // 交易类型
+            'txnType'        =>        '03',
+            // 交易子类
+            'txnSubType'     =>        '00',
+            // 商户代码，请改自己的商户号
+            'merId'          =>        $this->config['merId']
+        ];
+
+        $data = array_replace_recursive($this->config['payConfig'], $base, $params);
+
+        // 必填项校验
+        if (!isset($data['txnAmt']) || !isset($data['orderId']) || !isset($data['origQryId']))
+            throw new \Exception("商户订单号(重新生成，相当于退款单号)[orderId]和交易金额，范围为预授权金额的0-115%[txnAmt]和原交易查询流水号（支付成功后返回的）[origQryId]必传");
+
+        // 签名
+        $this->app->signature->sign($data);
+
+        // 数据返回
+        return $this->requestToken($data);
+    }
+
+    /**
+     * 预授权完成撤销
      * @param $params
      * @return mixed
      * @author cfn <cfn@leapy.cn>
@@ -113,7 +151,7 @@ class Client extends PaymentClient
             // 订单发送时间，格式为YYYYMMDDhhmmss，取北京时间
             'txnTime'        =>        date('YmdHis'),
             // 交易类型
-            'txnType'        =>        '04',
+            'txnType'        =>        '33',
             // 交易子类
             'txnSubType'     =>        '00',
             // 商户代码，请改自己的商户号
@@ -124,44 +162,7 @@ class Client extends PaymentClient
 
         // 必填项校验
         if (!isset($data['txnAmt']) || !isset($data['orderId']) || !isset($data['origQryId']))
-            throw new \Exception("商户订单号(重新生成，相当于退款单号)[orderId]和订单金额（退货总金额需要小于等于原消费）[txnAmt]和原交易查询流水号（支付成功后返回的）[origQryId]必传");
-
-        // 签名
-        $this->app->signature->sign($data);
-
-        // 数据返回
-        return $this->requestToken($data);
-    }
-
-    /**
-     * 订单查询
-     * @param $params
-     * @return mixed
-     * @author cfn <cfn@leapy.cn>
-     * @date 2021/8/19 22:17
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function query($params)
-    {
-        $this->endpoint = "https://gateway.95516.com/gateway/api/queryTrans.do";
-
-        $base = [
-            // 产品类型
-            'bizType'          =>      '000000',
-            // 订单发送时间，格式为YYYYMMDDhhmmss，取北京时间
-            'txnTime'        =>        date('YmdHis'),
-            // 交易类型
-            'txnType'        =>        '00',
-            // 交易子类
-            'txnSubType'     =>        '00',
-            // 商户代码，请改自己的商户号
-            'merId'          =>        $this->config['merId']
-        ];
-        $data = array_replace_recursive($this->config['payConfig'], $base, $params);
-
-        // 必填项校验
-        if (!isset($data['orderId']))
-            throw new \Exception("商户订单号[orderId]必传");
+            throw new \Exception("商户订单号(重新生成，相当于退款单号)[orderId]和订单金额（退货总金额等于原消费）[txnAmt]和原交易查询流水号（支付成功后返回的）[origQryId]必传");
 
         // 签名
         $this->app->signature->sign($data);
