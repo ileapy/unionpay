@@ -19,6 +19,13 @@ use unionpay\Kernel\ServiceContainer;
  * @property \unionpay\MiniProgram\contract\Client               $contract
  * @property \unionpay\MiniProgram\crypto\Crypto                 $crypto
  * @property \unionpay\MiniProgram\base\Client                   $base
+ * @property \unionpay\MiniProgram\message\Client                $message
+ * @property \unionpay\MiniProgram\redpack\Client                $redpack
+ * @property \unionpay\MiniProgram\qual\Client                   $qual
+ * @property \unionpay\MiniProgram\notify\Client                 $notify
+ * @property \unionpay\MiniProgram\secure\Client                 $secure
+ * @property \unionpay\MiniProgram\face\Client                   $face
+ * @property \unionpay\MiniProgram\coupon\Client                 $coupon
  *
  * @package uniopay\MiniProgram
  */
@@ -32,7 +39,14 @@ class Application extends ServiceContainer
         user\ServiceProvider::class,
         crypto\ServiceProvider::class,
         contract\ServiceProvider::class,
-        base\ServiceProvider::class
+        base\ServiceProvider::class,
+        coupon\ServiceProvider::class,
+        face\ServiceProvider::class,
+        message\ServiceProvider::class,
+        notify\ServiceProvider::class,
+        qual\ServiceProvider::class,
+        redpack\ServiceProvider::class,
+        secure\ServiceProvider::class
     ];
 
     /**

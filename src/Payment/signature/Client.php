@@ -18,6 +18,7 @@ use unionpay\Kernel\Support\AcpService;
 class Client extends PaymentClient
 {
     /**
+     * 验签
      * @param array $params 验签参数
      * @return bool
      * @throws \Exception
@@ -30,6 +31,7 @@ class Client extends PaymentClient
     }
 
     /**
+     * 加签
      * @param array $params 签名参数
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/19 10:56
@@ -37,6 +39,8 @@ class Client extends PaymentClient
      */
     public function sign(&$params)
     {
+        if (!isset($this->config['signCertPath']) || empty($this->config['signCertPath']))
+            throw new \Exception('签名证书未配置！');
         AcpService::sign($params, $this->config['signCertPath'], $this->config['signCertPwd']);
     }
 }

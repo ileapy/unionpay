@@ -11,17 +11,12 @@ use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class PaymentNotifyHandle
+ * Class MiniProgramNotifyHandle
  *
  * @package unionpay\Kernel\Traits
  */
-trait PaymentNotifyHandle
+trait MiniProgramNotifyHandle
 {
-    /**
-     * @var string
-     */
-    protected static $SUCCESS = 'success';
-
     /**
      * @var string
      */
@@ -39,7 +34,7 @@ trait PaymentNotifyHandle
      */
     protected function toResponse()
     {
-        return new Response(self::$SUCCESS);
+        return new Response(json_encode(["resp" => "00"]));
     }
 
     /**
@@ -65,7 +60,7 @@ trait PaymentNotifyHandle
         }
 
         if ($this->isCheck)
-            if (!$this->app->signature->validate($data))
+            if (!$this->app->crypto->verify($data))
                 throw new Exception('Invalid signature.', 400);
 
         return $this->data = $data;

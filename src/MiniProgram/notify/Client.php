@@ -1,23 +1,24 @@
 <?php
 /**
  * User: cfn <cfn@leapy.cn>
- * Datetime: 2021/8/17 23:12
+ * Datetime: 2021/8/20 23:44
  * Copyright: php
  */
 
-namespace unionpay\Payment\notify;
+namespace unionpay\MiniProgram\notify;
 
 use Closure;
-use unionpay\Kernel\Client\PaymentClient;
-use unionpay\Kernel\Traits\PaymentNotifyHandle;
+use unionpay\Kernel\Client\MiniProgramClient;
+use unionpay\Kernel\Traits\MiniProgramNotifyHandle;
 
 /**
  * Class Client
- * @package unionpay\Payment\notify
+ *
+ * @package unionpay\MiniProgram\notify
  */
-class Client extends PaymentClient
+class Client extends MiniProgramClient
 {
-    use PaymentNotifyHandle;
+    use MiniProgramNotifyHandle;
 
     /**
      * @param Closure $closure
@@ -30,7 +31,7 @@ class Client extends PaymentClient
     public function unit(Closure $closure, $isCheck = true)
     {
         $this->isCheck = $isCheck;
-        call_user_func($closure, $this->getData(), [$this]);
+        \call_user_func($closure, $this->getData(), [$this]);
         return $this->toResponse();
     }
 }

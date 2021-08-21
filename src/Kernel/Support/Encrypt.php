@@ -111,13 +111,31 @@ class Encrypt
     /**
      * 签名
      * @param array param 待签名的参数
-     * @param string signKey 签名密钥
+     * @param string signKey 私钥加密
      * @return string 签名结果字符串
      */
     public static function sign($params, $signKey)
     {
         openssl_sign(Str::sortByASCII($params), $binary_signature, $signKey, "SHA256");
         return base64_encode($binary_signature);
+    }
+
+    /**
+     * 银联公钥验签
+     * @param array $data 原始数据
+     * @param string $publicKey 银联公钥
+     * @return bool 验签结果
+     * @author cfn <cfn@leapy.cn>
+     * @date 2021/8/19 19:13
+     */
+    public static function verify($data, $publicKey = "")
+    {
+        $signature = $data['signature'];
+        unset($data['signature']);
+        $res = openssl_get_publickey($publicKey);
+        $result = (bool)openssl_verify(Str::sortByASCII($data), base64_decode($signature), $res,'SHA256');
+        openssl_free_key($res);
+        return $result;
     }
 
     /**
