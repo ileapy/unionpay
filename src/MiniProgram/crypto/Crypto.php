@@ -9,7 +9,6 @@ namespace unionpay\MiniProgram\crypto;
 
 use unionpay\Kernel\Client\MiniProgramClient;
 use unionpay\Kernel\Support\Encrypt;
-use unionpay\Kernel\Support\Str;
 
 /**
  * Class Crypto

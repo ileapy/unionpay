@@ -54,6 +54,11 @@ class Application extends ServiceContainer
      */
     protected $defaultConfig = [
         'http_post_data_type' => 'json',
+        'http' => [
+            'timeout' => 30.0,
+            'verify' => false,
+            'base_uri' => 'https://open.95516.com/open/access/'
+        ],
         // 银联公钥 -注意格式要保持一致
         'publicKey' => <<<EOF
 -----BEGIN PUBLIC KEY-----
@@ -69,6 +74,7 @@ EOF
     ];
 
     /**
+     * Handle dynamic calls.
      * @param $method
      * @param $args
      * @return mixed

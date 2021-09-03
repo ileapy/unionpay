@@ -27,7 +27,7 @@ class Client extends PaymentClient
     public function pay($params)
     {
         // 地址
-        $this->endpoint = "https://gateway.95516.com/gateway/api/appTransReq.do";
+        $this->endpoint = "appTransReq.do";
 
         // 固定数据
         $base = [
@@ -47,8 +47,8 @@ class Client extends PaymentClient
         $data = array_replace_recursive($this->config['payConfig'], $base, $params);
 
         // 必填项校验
-        if (!isset($data['txnAmt']) || !isset($data['orderId']))
-            throw new \Exception("商户订单号[txnAmt]和订单金额[orderId]必传");
+        if (!isset($data['orderId']) || !isset($data['txnAmt']))
+            throw new \Exception("商户订单号[orderId]和订单金额[txnAmt]必传");
 
         // 签名
         $this->app->signature->sign($data);
@@ -67,7 +67,7 @@ class Client extends PaymentClient
      */
     public function cancel($params)
     {
-        $this->endpoint = "https://gateway.95516.com/gateway/api/backTransReq.do";
+        $this->endpoint = "backTransReq.do";
 
         $base = [
             // 产品类型
@@ -105,7 +105,7 @@ class Client extends PaymentClient
      */
     public function refund($params)
     {
-        $this->endpoint = "https://gateway.95516.com/gateway/api/backTransReq.do";
+        $this->endpoint = "backTransReq.do";
 
         $base = [
             // 产品类型
@@ -143,7 +143,7 @@ class Client extends PaymentClient
      */
     public function query($params)
     {
-        $this->endpoint = "https://gateway.95516.com/gateway/api/queryTrans.do";
+        $this->endpoint = "queryTrans.do";
 
         $base = [
             // 产品类型

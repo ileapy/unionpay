@@ -31,7 +31,7 @@ class Client extends MiniProgramClient
      */
     public function apply($code = "", $openId = "", $planId = "", $contractCode = "")
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/contract.apply";
+        $this->endpoint = "1.0/contract.apply";
 
         $code = $code ?: $this->getCode($openId)['code'];
         if (!$code) throw new \Exception("code已失效，请重新授权获取");
@@ -64,7 +64,7 @@ class Client extends MiniProgramClient
      */
     public function relieve($openId = "", $contractId = "", $planId = "", $contractCode = "")
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/contract.relieve";
+        $this->endpoint = "1.0/contract.relieve";
 
         $params = [
             'appId' => $this->config['appid'],
@@ -89,7 +89,7 @@ class Client extends MiniProgramClient
      */
     public function signStatus($openId = "", $planId = "")
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/contract.info";
+        $this->endpoint = "1.0/contract.info";
 
         $params = [
             'appId' => $this->config['appid'],
@@ -111,7 +111,7 @@ class Client extends MiniProgramClient
      */
     public function unFinishedOrder($openId = "")
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/contract.status";
+        $this->endpoint = "1.0/contract.status";
 
         $params = [
             'appId' => $this->config['appid'],

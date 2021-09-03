@@ -27,7 +27,7 @@ class Client extends MiniProgramClient
      */
     public function given($params)
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/coupon.download";
+        $this->endpoint = "1.0/coupon.download";
 
         $base = [
             'appId' => $this->config['appid'],
@@ -64,7 +64,7 @@ class Client extends MiniProgramClient
      */
     public function query($params)
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/coupon.query";
+        $this->endpoint = "1.0/coupon.query";
 
         $base = [
             'appId' => $this->config['appid'],
@@ -92,7 +92,7 @@ class Client extends MiniProgramClient
      */
     public function quota($params)
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/activity.quota";
+        $this->endpoint = "1.0/activity.quota";
 
         $base = [
             'appId' => $this->config['appid'],

@@ -27,7 +27,7 @@ class Client extends MiniProgramClient
      */
     public function send($params)
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/applet.msg";
+        $this->endpoint = "1.0/applet.msg";
 
         $base = [
             'appId' => $this->config['appid'],

@@ -9,7 +9,6 @@ namespace unionpay\MiniProgram\access;
 
 use unionpay\Kernel\Client\MiniProgramClient;
 use unionpay\Kernel\Contracts\AccessTokenInterface;
-use unionpay\Kernel\Events\AccessTokenRefreshed;
 
 /**
  * Class AccessToken
@@ -20,7 +19,7 @@ class AccessToken extends MiniProgramClient implements AccessTokenInterface
     /**
      * @var string
      */
-    protected $endpoint = "https://open.95516.com/open/access/1.0/token";
+    protected $endpoint = "1.0/token";
 
     /**
      * @var array

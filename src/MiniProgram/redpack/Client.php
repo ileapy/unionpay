@@ -99,7 +99,7 @@ class Client extends MiniProgramClient
      */
     public function excQuery($params = [])
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/red.packet.select";
+        $this->endpoint = "1.0/red.packet.select";
 
         $base = [
             'appId' => $this->config['appid'],

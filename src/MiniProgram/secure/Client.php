@@ -31,7 +31,7 @@ class Client extends MiniProgramClient
      */
     public function verifyPwd($code = "", $openId = "", $params = [])
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/verifyPwdSeqId";
+        $this->endpoint = "1.0/verifyPwdSeqId";
 
         $code = $code ?: $this->getCode($openId)['code'];
         if (!$code) throw new \Exception("code已失效，请重新授权获取");

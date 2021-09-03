@@ -245,8 +245,11 @@ trait HasHttpRequests
      */
     protected function getEndpoint()
     {
+        // 先判断是否为文件下载
         if (empty($this->endpoint)) {
-            throw new InvalidArgumentException('No endpoint request.');
+            $this->endpoint = $this->config['payment_model'] ? $this->config['test_file_uri'] : $this->config['file_uri'];
+        } else {
+            $this->endpoint = ($this->config['payment_model'] ? $this->config['test_base_uri'] : $this->config['base_uri']) . $this->endpoint;
         }
         return $this->endpoint;
     }

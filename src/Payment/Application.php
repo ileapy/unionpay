@@ -37,7 +37,19 @@ class Application extends ServiceContainer
      * @var string[]
      */
     protected $defaultConfig = [
+        // 是否测试模式， 测试模式下网关为测试地址
+        'payment_model' => false,
+        // 请求数据类型
         'http_post_data_type' => 'form_params',
+        // 正式环境域名
+        'base_uri' => 'https://gateway.95516.com/gateway/api/',
+        // 测试环境域名
+        'test_base_uri' => 'https://gateway.test.95516.com/gateway/api/',
+        // 正式文件传输地址
+        'file_uri' => 'https://filedownload.95516.com/',
+        // 测试文件传输地址
+        'test_file_uri' => 'https://filedownload.test.95516.com/',
+        // 基础证书
         'cert' => [
             'middleCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'middle.cer',
             'rootCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'root.cer',

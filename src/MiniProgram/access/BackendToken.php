@@ -9,7 +9,6 @@ namespace unionpay\MiniProgram\access;
 
 use unionpay\Kernel\Client\MiniProgramClient;
 use unionpay\Kernel\Contracts\BackendTokenInterface;
-use unionpay\Kernel\Events\BackendTokenRefreshed;
 use unionpay\Kernel\Support\Str;
 
 class BackendToken extends MiniProgramClient implements BackendTokenInterface
@@ -17,7 +16,7 @@ class BackendToken extends MiniProgramClient implements BackendTokenInterface
     /**
      * @var string
      */
-    protected $endpoint = "https://open.95516.com/open/access/1.0/backendToken";
+    protected $endpoint = "1.0/backendToken";
 
     /**
      * @var array

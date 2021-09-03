@@ -27,7 +27,7 @@ class Client extends PaymentClient
      */
     public function updatePublicKey($params)
     {
-        $this->endpoint = "https://gateway.95516.com/gateway/api/backTransReq.do";
+        $this->endpoint = "backTransReq.do";
 
         $base = [
             // 产品类型
@@ -66,7 +66,7 @@ class Client extends PaymentClient
      */
     public function download($params)
     {
-        $this->endpoint = "https://filedownload.95516.com/";
+        $this->endpoint = ""; // 文件下载直接填空
 
         $base = [
             // 产品类型

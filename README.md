@@ -176,7 +176,7 @@ print_r($mobile);
 ### 手机号解密：
 
 ```php
-$mobile = $app->crypto->encrypt('Bth5XXdhUQIQLYXOcAreTQ==');
+$mobile = $app->crypto->decrypt('Bth5XXdhUQIQLYXOcAreTQ==');
 
 var_dump($mobile);
 
@@ -303,12 +303,15 @@ $response = $app->notify->unit(function ($message) use ($app){
 $response->send();
 ```
 
-> 更多示例请参考 [https://www.kuzuozhou.cn/](https://www.kuzuozhou.cn/)。
+## 文档地址（更新中...）
+
+[https://wiki.kuzuozhou.cn/]https://wiki.kuzuozhou.cn/)。
 
 ## 作者
 
 邮箱：cfn@leapy.cn<br/>
 微信：SH-CFN
+博客：[https://www.kuzuozhou.cn/](https://www.kuzuozhou.cn/)
 
 ## 支持🌙
 

@@ -27,7 +27,7 @@ class Client extends MiniProgramClient
      */
     public function given($params = [])
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/qual.send";
+        $this->endpoint = "1.0/qual.send";
 
         $base = [
             'appId' => $this->config['appid'],
@@ -62,7 +62,7 @@ class Client extends MiniProgramClient
      */
     public function query($params = [])
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/qual.select";
+        $this->endpoint = "1.0/qual.select";
 
         $base = [
             'appId' => $this->config['appid'],
@@ -92,7 +92,7 @@ class Client extends MiniProgramClient
      */
     public function lotto($params = [])
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/qual.reduce";
+        $this->endpoint = "1.0/qual.reduce";
 
         $base = [
             'appId' => $this->config['appid'],
@@ -127,7 +127,7 @@ class Client extends MiniProgramClient
      */
     public function directLotto($params = [])
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/maktg.draw";
+        $this->endpoint = "1.0/maktg.draw";
 
         $base = [
             'appId' => $this->config['appid'],

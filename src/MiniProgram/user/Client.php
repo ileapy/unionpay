@@ -30,7 +30,7 @@ class Client extends MiniProgramClient
      */
     public function mobile($code = "", $openId = "", $decrypt = true)
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/user.mobile";
+        $this->endpoint = "1.0/user.mobile";
 
         $code = $code ?: $this->getCode($openId)['code'];
         if (!$code) throw new \Exception("code已失效，请重新授权获取");
@@ -71,7 +71,7 @@ class Client extends MiniProgramClient
      */
     public function auth($code = "", $openId = "", $decrypt = true)
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/user.auth";
+        $this->endpoint = "1.0/user.auth";
 
         $code = $code ?: $this->getCode($openId)['code'];
         if (!$code) throw new \Exception("code已失效，请重新授权获取");
@@ -114,7 +114,7 @@ class Client extends MiniProgramClient
      */
     public function card($code = "", $openId = "", $cardTp = "00", $needSameName = "0", $needPay = "0", $decrypt = true)
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/oauth.getCardList";
+        $this->endpoint = "1.0/oauth.getCardList";
 
         $code = $code ?: $this->getCode($openId)['code'];
         if (!$code) throw new \Exception("code已失效，请重新授权获取");
@@ -156,7 +156,7 @@ class Client extends MiniProgramClient
      */
     public function cardToken($code = "", $openId = "", $decrypt = true)
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/user.checkedCard";
+        $this->endpoint = "1.0/user.checkedCard";
 
         $code = $code ?: $this->getCode($openId)['code'];
         if (!$code) throw new \Exception("code已失效，请重新授权获取");
@@ -193,7 +193,7 @@ class Client extends MiniProgramClient
      */
     public function userStatus($openId, $markTime ="", $decrypt = true)
     {
-        $this->endpoint = "https://open.95516.com/open/access/1.0/user.status";
+        $this->endpoint = "1.0/user.status";
 
         $params = [
             'appId' => $this->config['appid'],

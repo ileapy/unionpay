@@ -27,7 +27,7 @@ class Client extends PaymentClient
     public function pay($params)
     {
         // 地址
-        $this->endpoint = "https://gateway.95516.com/gateway/api/appTransReq.do";
+        $this->endpoint = "appTransReq.do";
 
         // 固定数据
         $base = [
@@ -67,7 +67,7 @@ class Client extends PaymentClient
      */
     public function cancel($params)
     {
-        $this->endpoint = "https://gateway.95516.com/gateway/api/backTransReq.do";
+        $this->endpoint = "backTransReq.do";
 
         $base = [
             // 产品类型
@@ -105,7 +105,7 @@ class Client extends PaymentClient
      */
     public function finish($params)
     {
-        $this->endpoint = "https://gateway.95516.com/gateway/api/backTransReq.do";
+        $this->endpoint = "backTransReq.do";
 
         $base = [
             // 产品类型
@@ -143,7 +143,7 @@ class Client extends PaymentClient
      */
     public function refund($params)
     {
-        $this->endpoint = "https://gateway.95516.com/gateway/api/backTransReq.do";
+        $this->endpoint = "backTransReq.do";
 
         $base = [
             // 产品类型

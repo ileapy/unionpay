@@ -9,7 +9,6 @@ namespace unionpay\MiniProgram\access;
 
 use unionpay\Kernel\Client\MiniProgramClient;
 use unionpay\Kernel\Contracts\FrontTokenInterface;
-use unionpay\Kernel\Events\FrontTokenRefreshed;
 use unionpay\Kernel\Support\Str;
 
 /**
@@ -21,7 +20,7 @@ class FrontToken extends MiniProgramClient implements FrontTokenInterface
     /**
      * @var string
      */
-    protected $endpoint = "https://open.95516.com/open/access/1.0/frontToken";
+    protected $endpoint = "1.0/frontToken";
 
     /**
      * @var array
