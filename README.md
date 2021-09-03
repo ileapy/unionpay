@@ -305,12 +305,12 @@ $response->send();
 
 ## 文档地址（更新中...）
 
-[https://wiki.kuzuozhou.cn/]https://wiki.kuzuozhou.cn/)。
+[https://wiki.kuzuozhou.cn/](https://wiki.kuzuozhou.cn/)
 
 ## 作者
 
 邮箱：cfn@leapy.cn<br/>
-微信：SH-CFN
+微信：SH-CFN<br/>
 博客：[https://www.kuzuozhou.cn/](https://www.kuzuozhou.cn/)
 
 ## 支持🌙
