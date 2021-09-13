@@ -49,11 +49,15 @@ class Application extends ServiceContainer
         'file_uri' => 'https://filedownload.95516.com/',
         // 测试文件传输地址
         'test_file_uri' => 'https://filedownload.test.95516.com/',
-        // 基础证书
+        // 生产环境基础证书
         'cert' => [
-            'middleCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'middle.cer',
-            'rootCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'root.cer',
-            'ifValidateCNName' => true
+            'middleCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'acp_prod_middle.cer',
+            'rootCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'acp_prod_root.cer',
+        ],
+        // 测试环境基础证书
+        'test_cert' => [
+            'middleCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'acp_test_middle.cer',
+            'rootCertPath' => __DIR__ . DIRECTORY_SEPARATOR . 'cert' . DIRECTORY_SEPARATOR . 'acp_test_root.cer',
         ],
         'http' => [
             'headers' => [

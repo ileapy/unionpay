@@ -19,7 +19,7 @@ use unionpay\Kernel\Support\AcpService;
 class Client extends PaymentClient
 {
     /**
-     * 此接口咱不可用
+     * 此接口暂不可用
      * 银联加密公钥更新查询接口
      * @throws Exception|\GuzzleHttp\Exception\GuzzleException
      * @author cfn <cfn@leapy.cn>

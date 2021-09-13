@@ -86,14 +86,14 @@ class ServiceContainer extends Container
      */
     public function getConfig()
     {
-        $base = [
+        $baseConfig = [
             'http' => [
                 'timeout' => 30.0,
                 'base_uri' => 'https://open.95516.com/',
                 'verify' => false // 不验证https证书
             ]
         ];
-        return array_replace_recursive($base, $this->defaultConfig, $this->userConfig);
+        return array_replace_recursive($baseConfig, $this->defaultConfig, $this->userConfig);
     }
 
     /**

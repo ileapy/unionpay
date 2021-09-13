@@ -27,7 +27,10 @@ class Client extends PaymentClient
      */
     public function validate($params)
     {
-        return (bool)AcpService::validate($params,'', $this->config['cert']['middleCertPath'], $this->config['cert']['rootCertPath'], $this->config['cert']['ifValidateCNName']);
+        return (bool)AcpService::validate($params,'',
+            $this->config['payment_model'] ? $this->config['test_cert']['middleCertPath'] : $this->config['cert']['middleCertPath'],
+            $this->config['payment_model'] ? $this->config['test_cert']['rootCertPath'] : $this->config['cert']['rootCertPath'],
+            !$this->config['payment_model']);
     }
 
     /**

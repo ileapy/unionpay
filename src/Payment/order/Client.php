@@ -24,7 +24,7 @@ class Client extends PaymentClient
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 19:23
      */
-    public function pay($params)
+    public function pay($params, $isCheck = true)
     {
         // 地址
         $this->endpoint = "appTransReq.do";

@@ -10,7 +10,6 @@ namespace unionpay\Kernel\Traits;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
-use Psr\Log\InvalidArgumentException;
 use unionpay\Kernel\Support\AcpService;
 
 trait HasHttpRequests
