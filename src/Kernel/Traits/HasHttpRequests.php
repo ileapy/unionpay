@@ -244,12 +244,16 @@ trait HasHttpRequests
      */
     protected function getEndpoint()
     {
-        // 先判断是否为文件下载
-        if (empty($this->endpoint)) {
-            $this->endpoint = $this->config['payment_model'] ? $this->config['test_file_uri'] : $this->config['file_uri'];
-        } else {
-            $this->endpoint = ($this->config['payment_model'] ? $this->config['test_base_uri'] : $this->config['base_uri']) . $this->endpoint;
+        // payment_model、test_file_uri、test_base_uri是支付中的配置参数
+        if (isset($this->config['payment_model']))
+        {
+            // 文件下载时endpoint 为空
+            $this->endpoint = empty($this->endpoint) ?
+                ($this->config['payment_model'] ? $this->config['test_file_uri'] : $this->config['file_uri'])
+                :
+                ((($this->config['payment_model']) ? $this->config['test_base_uri'] : $this->config['base_uri']) . $this->endpoint);
         }
+        var_dump($this->endpoint);
         return $this->endpoint;
     }
 }
