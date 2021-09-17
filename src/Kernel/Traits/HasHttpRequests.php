@@ -253,7 +253,7 @@ trait HasHttpRequests
                 :
                 ((($this->config['payment_model']) ? $this->config['test_base_uri'] : $this->config['base_uri']) . $this->endpoint);
         }
-        var_dump($this->endpoint);
+
         return $this->endpoint;
     }
 }
