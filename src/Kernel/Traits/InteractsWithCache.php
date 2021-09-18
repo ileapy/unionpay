@@ -23,7 +23,7 @@ trait InteractsWithCache
     protected $cache = null;
 
     /**
-     * @return CacheAdapter|void|null
+     * @return CacheAdapter|\Symfony\Component\Cache\Adapter\ApcuAdapter|\Symfony\Component\Cache\Adapter\FilesystemAdapter|\Symfony\Component\Cache\Adapter\MemcachedAdapter|\Symfony\Component\Cache\Adapter\RedisAdapter|null
      * @throws \Exception
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 9:46
