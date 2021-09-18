@@ -91,6 +91,74 @@ class ServiceContainer extends Container
                 'timeout' => 30.0,
                 'base_uri' => 'https://open.95516.com/',
                 'verify' => false // 不验证https证书
+            ],
+            'cache' => [
+                // 详细参考 http://www.symfonychina.com/doc/current/components/cache/cache_pools.html
+                // 可选值 File, Redis, APCu, memcached, Doctrine
+                'type' => 'File',
+            ],
+            'file' => [
+                // a string used as the subdirectory of the root cache directory, where cache
+                // items will be stored
+                'namespace' => '',
+
+                // the default lifetime (in seconds) for cache items that do not define their
+                // own lifetime, with a value 0 causing items to be stored indefinitely (i.e.
+                // until the files are deleted)
+                'defaultLifetime' => 0,
+
+                // the main cache directory (the application needs read-write permissions on it)
+                // if none is specified, a directory is created inside the system temporary directory
+                'directory' => null
+            ],
+            'redis' => [
+                // redis[s]://[pass@][ip|host|socket[:port]][/db-index]
+                'dsn' => 'redis://localhost:6379',
+                'redis_options' => [
+                    'lazy' => false,
+                    'persistent' => 0,
+                    'persistent_id' => null,
+                    'tcp_keepalive' => 0,
+                    'timeout' => 30,
+                    'read_timeout' => 0,
+                    'retry_interval' => 0,
+                ],
+                // the default lifetime (in seconds) for cache items that do not define their
+                // own lifetime, with a value 0 causing items to be stored indefinitely (i.e.
+                // until RedisAdapter::clear() is invoked or the server(s) are purged)
+                'defaultLifetime' => 0,
+
+                // if ``true``, the values saved in the cache are serialized before storing them
+                'storeSerialized' => true
+            ],
+            'apcu' => [
+                // a string prefixed to the keys of the items stored in this cache
+                'namespace' => '',
+
+                // the default lifetime (in seconds) for cache items that do not define their
+                // own lifetime, with a value 0 causing items to be stored indefinitely (i.e.
+                // until the APCu memory is cleared)
+                'defaultLifetime' => 0,
+
+                // when set, all keys prefixed by $namespace can be invalidated by changing
+                // this $version string
+                'version' => null
+            ],
+            'memcached' => [
+                // memcached://[user:pass@][ip|host|socket[:port]][?weight=int]
+                'dsn' => 'memcached://localhost:11211',
+                'memcached_type' => [
+                    'compression' => true,
+                    'libketama_compatible' => true,
+                    'serializer' => 'igbinary',
+                ],
+                // a string prefixed to the keys of the items stored in this cache
+                'namespace' => '',
+
+                // the default lifetime (in seconds) for cache items that do not define their
+                // own lifetime, with a value 0 causing items to be stored indefinitely (i.e.
+                // until MemcachedAdapter::clear() is invoked or the server(s) are restarted)
+                'defaultLifetime' => 0
             ]
         ];
         return array_replace_recursive($baseConfig, $this->defaultConfig, $this->userConfig);

@@ -8,7 +8,7 @@
 namespace unionpay\Kernel\Traits;
 
 use unionpay\Kernel\ServiceContainer;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use unionpay\Kernel\Support\CacheAdapter;
 
 /**
  * Class InteractsWithCache
@@ -23,7 +23,8 @@ trait InteractsWithCache
     protected $cache = null;
 
     /**
-     * @return FilesystemAdapter|void|null
+     * @return CacheAdapter|void|null
+     * @throws \Exception
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 9:46
      */
@@ -37,7 +38,7 @@ trait InteractsWithCache
             $this->setCache($this->app['cache']);
 
             // Fix PHPStan error
-            assert($this->cache instanceof FilesystemAdapter);
+            assert($this->cache instanceof CacheAdapter);
 
             return $this->cache;
         }
@@ -59,12 +60,14 @@ trait InteractsWithCache
     }
 
     /**
-     * @return FilesystemAdapter
+     * @return \Symfony\Component\Cache\Adapter\ApcuAdapter|\Symfony\Component\Cache\Adapter\FilesystemAdapter|\Symfony\Component\Cache\Adapter\MemcachedAdapter|\Symfony\Component\Cache\Adapter\RedisAdapter|CacheAdapter
+     * @throws \Exception
      * @author cfn <cfn@leapy.cn>
      * @date 2021/8/16 9:15
      */
     protected function createDefaultCache()
     {
-        return new FilesystemAdapter();
+        $cache = new CacheAdapter($this->app['config']);
+        return $cache->getAdapter();
     }
 }
