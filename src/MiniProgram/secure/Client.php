@@ -19,7 +19,7 @@ class Client extends MiniProgramClient
 {
     /**
      * 获取验证支付密码流水号
-     * @param string $code 用户授权code
+     * @param string $code 用户授权或静默授权获取的code和openid必传其一
      * @param string $openId 用户唯一标识如果未传递code请确保已调用accessToken后再调用此接口
      * @param array $params 参数
      * @return mixed

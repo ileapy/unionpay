@@ -53,7 +53,7 @@ class Client extends MiniProgramClient
 
     /**
      * 解约
-     * @param string $openId 用户唯一标识如果未传递code请确保已调用accessToken后再调用此接口
+     * @param string $openId 用户唯一标识
      * @param string $contractId 申请签约完成后返回委托免密支付协议 id
      * @param string $planId 协议模板id由云闪付录入模板并分配给接入方
      * @param string $contractCode 接入方侧的签约协议号，由接入方自行生成
@@ -80,7 +80,7 @@ class Client extends MiniProgramClient
 
     /**
      * 签约状态
-     * @param string $openId 用户唯一标识如果未传递code请确保已调用accessToken后再调用此接口
+     * @param string $openId 用户唯一标识
      * @param string $planId 协议模板id由云闪付录入模板并分配给接入方
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -103,7 +103,7 @@ class Client extends MiniProgramClient
 
     /**
      * 未完成订单
-     * @param string $openId 用户唯一标识如果未传递code请确保已调用accessToken后再调用此接口
+     * @param string $openId 用户唯一标识
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @author cfn <cfn@leapy.cn>

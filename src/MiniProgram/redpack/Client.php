@@ -20,7 +20,7 @@ class Client extends MiniProgramClient
     /**
      * 赠送专享红包
      * @param string $openId 用户唯一标识如果未传递code请确保已调用accessToken后再调用此接口
-     * @param array $params 参数
+     * @param array $params 更多参数
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
@@ -62,7 +62,7 @@ class Client extends MiniProgramClient
 
     /**
      * 机构账户（红包）余额查询
-     * @param array $params 参数
+     * @param array $params 更多参数
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @author cfn <cfn@leapy.cn>
@@ -90,7 +90,7 @@ class Client extends MiniProgramClient
 
     /**
      * 专享红包余额查询
-     * @param array $params 参数
+     * @param array $params 更多参数
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception

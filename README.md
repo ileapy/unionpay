@@ -19,6 +19,10 @@ Github地址 [https://github.com/ileapy/unionpay](https://github.com/ileapy/unio
 $ composer require cfn/unionpay
 ```
 
+## 文档地址（已更新完毕）
+
+[https://wiki.kuzuozhou.cn/](https://wiki.kuzuozhou.cn/)
+
 ## 接口🌈
 
 | 模块名称       | 使用场景         | 接口方法                               |
@@ -302,10 +306,6 @@ $response = $app->notify->unit(function ($message) use ($app){
 
 $response->send();
 ```
-
-## 文档地址（更新中...）
-
-[https://wiki.kuzuozhou.cn/](https://wiki.kuzuozhou.cn/)
 
 ## 作者
 

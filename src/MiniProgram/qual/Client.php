@@ -18,7 +18,7 @@ class Client extends MiniProgramClient
 {
     /**
      * 抽奖资格赠送
-     * @param array $params 参数
+     * @param array $params 更多参数
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
@@ -53,7 +53,7 @@ class Client extends MiniProgramClient
 
     /**
      * 抽奖资格查询
-     * @param array $params 参数
+     * @param array $params 更多参数
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
@@ -83,7 +83,7 @@ class Client extends MiniProgramClient
 
     /**
      * 抽奖
-     * @param array $params 参数
+     * @param array $params 更多参数
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
@@ -118,7 +118,7 @@ class Client extends MiniProgramClient
 
     /**
      * 直接抽奖
-     * @param array $params 参数
+     * @param array $params 更多参数
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Exception
