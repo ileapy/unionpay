@@ -307,11 +307,16 @@ $response = $app->notify->unit(function ($message) use ($app){
 $response->send();
 ```
 
+## 云闪付小程序技术交流群（如果二维码失效加我微信入群）
+
+<img src="https://i.loli.net/2021/10/19/piCqrAkUYtS2cyK.png" width="200px" />
+
+一起交流云闪付小程序开发技术经验，不懂就问
+
 ## 作者
 
 邮箱：cfn@leapy.cn<br/>
 微信：SH-CFN<br/>
-博客：[https://www.kuzuozhou.cn/](https://www.kuzuozhou.cn/)
 
 ## 支持🌙
 
