@@ -309,7 +309,7 @@ $response->send();
 
 ## 云闪付小程序技术交流群（如果二维码失效加我微信入群）
 
-<img src="https://i.loli.net/2021/10/19/piCqrAkUYtS2cyK.png" width="200px" />
+<img src="https://i.loli.net/2021/10/27/yjSFzpm89XdtJYR.png" width="200px" />
 
 一起交流云闪付小程序开发技术经验，不懂就问
 
