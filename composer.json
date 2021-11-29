@@ -11,7 +11,8 @@
         "ext-curl": "*",
         "ext-mcrypt": "*",
         "ext-zlib": "*",
-        "ext-openssl": "*"
+        "ext-openssl": "*",
+        "phpunit/phpunit": "^5.7"
     },
     "license": "MIT",
     "authors": [
@@ -23,7 +24,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "unionpay\\": "src/"
+            "unionpay\\": "src/",
+            "unionpay\\Tests\\": "tests/"
         }
     }
 }
