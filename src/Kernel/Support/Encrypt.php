@@ -23,51 +23,38 @@ class Encrypt
      */
     public static function encrypt3DES($input, $key, $iv = "12345678910111213")
     {
-        $key = pack("H*", $key);
-        $iv = pack("H*", $iv);
-        $input = self::addPKCS7Padding($input);
-        $td = @mcrypt_module_open(MCRYPT_3DES, '', MCRYPT_MODE_ECB, '');
-        @mcrypt_generic_init($td, $key, $iv);
-        $data = @mcrypt_generic($td, $input);
-        @mcrypt_generic_deinit($td);
-        @mcrypt_module_close($td);
-        //$data= iconv("UTF-8","GB2312//IGNORE",$data);
+        $key = pack("H48", $key);
+        $input = self::pkcs5Pad($input);
+        $data = openssl_encrypt($input,'DES-EDE3',$key,OPENSSL_RAW_DATA | OPENSSL_NO_PADDING,'');
         return self::removeBR(base64_encode($data));
     }
 
     /**
-     * 加密
-     * @param $source
+     * @param $text
      * @return string
+     * Author cfn <cfn@leapy.cn>
+     * Date 2022/1/19
      */
-    private static function addPKCS7Padding($source)
-    {
-        $block = @mcrypt_get_block_size('tripledes', 'cbc');
-        $pad = $block - (strlen($source) % $block);
-        if ($pad <= $block) {
-            $char = chr($pad);
-            $source .= str_repeat($char, $pad);
+    private static function pkcs5Pad($text) {
+        $pad = 8 - (strlen($text) % 8);
+        $input = $text . str_repeat(chr($pad), $pad);
+        if (strlen($input) % 8) {
+            $input = str_pad($input,
+                strlen($input) + 8 - strlen($input) % 8, "\0");
         }
-        return $source;
+        return $input;
     }
 
     /**
      * 解密
      * @param $encrypted
      * @param $key
-     * @param string $iv
      * @return false|string
      */
-    public static function decrypt3DES($encrypted, $key, $iv = "12345678910111213")
+    public static function decrypt3DES($encrypted, $key)
     {
         $key = pack("H48", $key);
-        $iv = pack("H16", $iv);
-        $encrypted = base64_decode($encrypted);
-        $td = @mcrypt_module_open(MCRYPT_3DES, '', MCRYPT_MODE_ECB, '');
-        @mcrypt_generic_init($td, $key, $iv);
-        $decrypted = @mdecrypt_generic($td, $encrypted);
-        @mcrypt_generic_deinit($td);
-        @mcrypt_module_close($td);
+        $decrypted = openssl_decrypt(base64_decode($encrypted),'DES-EDE3',$key,OPENSSL_RAW_DATA | OPENSSL_NO_PADDING,'');
         return self::stripPKSC5Padding($decrypted);
     }
 
