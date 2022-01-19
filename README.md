@@ -9,9 +9,7 @@ Github地址 [https://github.com/ileapy/unionpay](https://github.com/ileapy/unio
 
 ## 依赖
 
-1. PHP >= 5.6
-2. mcrypt扩展
-3. **[Composer](https://getcomposer.org/)**
+PHP >= 5.6
 
 ## 安装
 
