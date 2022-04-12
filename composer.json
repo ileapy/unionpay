@@ -10,8 +10,10 @@
         "ext-json": "*",
         "ext-curl": "*",
         "ext-zlib": "*",
-        "ext-openssl": "*",
-        "phpunit/phpunit": "^5.7"
+        "ext-openssl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7 || ^6.5 || ^7.0 || ^8.0 || ^9.0"
     },
     "license": "MIT",
     "authors": [
