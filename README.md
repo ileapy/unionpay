@@ -14,12 +14,12 @@ PHP >= 5.6
 ## 安装
 
 ```shell
-$ composer require cfn/unionpay
+composer require cfn/unionpay:^1.0.8
 ```
 
 ## 文档地址（已更新完毕）
 
-[https://wiki.kuzuozhou.cn/](https://wiki.kuzuozhou.cn/)
+[https://eup.gocli.run/](https://eup.gocli.run/)
 
 ## 接口🌈
 
