@@ -1,5 +1,6 @@
 {
     "name": "cfn/unionpay",
+    "description": "银联云闪付小程序非官方SDK，小程序后端与支付相关接口已更新完毕。",
     "type": "library",
     "require": {
         "php": ">=5.6.0",
