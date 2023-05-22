@@ -14,7 +14,7 @@ PHP >= 5.6
 ## 安装
 
 ```shell
-composer require cfn/unionpay:^1.0.8
+composer require cfn/unionpay:^1.0.9
 ```
 
 ## 文档地址（已更新完毕）
