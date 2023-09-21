@@ -19,7 +19,7 @@ composer require cfn/unionpay:^1.0.9
 
 ## 文档地址（已更新完毕）
 
-[https://eup.gocli.run/](https://eup.gocli.run/)
+[https://e.leapy.cn/](https://e.leapy.cn/)
 
 ## 接口🌈
 
